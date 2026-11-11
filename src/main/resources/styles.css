@@ -1,0 +1,827 @@
+/* ===========================================================
+   TALLER MECÁNICO — Sistema de Gestión
+   Paleta: #2A363B (oscuro) + #E84A5F (acento) + blancos/grises
+   =========================================================== */
+
+.root {
+    -taller-dark: #2A363B;
+    -taller-dark-hover: #394950;
+    -taller-accent: #E84A5F;
+    -taller-accent-dark: #C93A4E;
+    -taller-accent-soft: #FDECEF;
+    -taller-bg: #F3F5F7;
+    -taller-border: #E1E6E9;
+    -taller-muted: #6B7A82;
+
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: -taller-bg;
+    -fx-accent: -taller-accent;
+    -fx-focus-color: -taller-accent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* ===========================================================
+   SIDEBAR
+   =========================================================== */
+
+.sidebar {
+    -fx-background-color: -taller-dark;
+    -fx-padding: 0 12 16 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 12, 0, 2, 0);
+}
+
+.sidebar-header {
+    -fx-padding: 24 8 22 8;
+    -fx-border-color: transparent transparent rgba(255,255,255,0.10) transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.sidebar-header .icono {
+    -fx-fill: -taller-accent;
+}
+
+.sidebar-title {
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 1px;
+}
+
+.sidebar-subtitle {
+    -fx-text-fill: #9FB0B7;
+    -fx-font-size: 11px;
+}
+
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-text-fill: #CFD8DC;
+    -fx-font-size: 13.5px;
+    -fx-padding: 11 14 11 14;
+    -fx-cursor: hand;
+}
+
+.sidebar-button .icono {
+    -fx-fill: #9FB0B7;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: rgba(255,255,255,0.08);
+    -fx-text-fill: white;
+}
+
+.sidebar-button:hover .icono {
+    -fx-fill: white;
+}
+
+.sidebar-button:selected {
+    -fx-background-color: -taller-accent;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.sidebar-button:selected .icono {
+    -fx-fill: white;
+}
+
+.sidebar-button:focused {
+    -fx-background-insets: 0;
+}
+
+/* ===========================================================
+   BARRA SUPERIOR Y ÁREA DE CONTENIDO
+   =========================================================== */
+
+.topbar {
+    -fx-background-color: white;
+    -fx-padding: 14 28 14 28;
+    -fx-border-color: transparent transparent -taller-border transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.page-title {
+    -fx-text-fill: -taller-dark;
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+}
+
+.user-chip {
+    -fx-background-color: -taller-bg;
+    -fx-background-radius: 20;
+    -fx-text-fill: -taller-dark;
+    -fx-font-weight: bold;
+    -fx-padding: 6 14 6 12;
+    -fx-graphic-text-gap: 8;
+}
+
+.user-chip .icono {
+    -fx-fill: -taller-accent;
+}
+
+.content-area {
+    -fx-padding: 8 12 8 12;
+}
+
+/* ===========================================================
+   DASHBOARD
+   =========================================================== */
+
+.dashboard-scroll,
+.dashboard-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.dashboard-title {
+    -fx-text-fill: -taller-dark;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+.dashboard-subtitle {
+    -fx-text-fill: -taller-muted;
+    -fx-font-size: 13px;
+}
+
+.section-title {
+    -fx-text-fill: -taller-dark;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.dashboard-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: transparent transparent transparent -taller-accent;
+    -fx-border-width: 0 0 0 4;
+    -fx-border-radius: 12;
+    -fx-padding: 18 20 18 20;
+    -fx-effect: dropshadow(gaussian, rgba(42,54,59,0.10), 10, 0, 0, 2);
+}
+
+.card-icon-box {
+    -fx-background-color: -taller-dark;
+    -fx-background-radius: 12;
+    -fx-min-width: 58;
+    -fx-min-height: 58;
+    -fx-pref-width: 58;
+    -fx-pref-height: 58;
+}
+
+.card-icon-box .icono {
+    -fx-fill: -taller-accent;
+}
+
+.card-value {
+    -fx-text-fill: -taller-dark;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+.card-label {
+    -fx-text-fill: -taller-muted;
+    -fx-font-size: 12.5px;
+}
+
+.dashboard-card-alert .card-value {
+    -fx-text-fill: -taller-accent;
+}
+
+/* ===========================================================
+   BOTONES TIPO HERRAMIENTA (acciones rápidas)
+   =========================================================== */
+
+.tool-button {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: -taller-border;
+    -fx-border-radius: 12;
+    -fx-text-fill: -taller-dark;
+    -fx-font-weight: bold;
+    -fx-padding: 16 12 14 12;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(42,54,59,0.10), 8, 0, 0, 2);
+}
+
+.tool-button .icono {
+    -fx-fill: -taller-dark;
+}
+
+.tool-button:hover {
+    -fx-border-color: -taller-accent;
+    -fx-effect: dropshadow(gaussian, rgba(42,54,59,0.30), 18, 0, 0, 6);
+}
+
+.tool-button:hover .icono {
+    -fx-fill: -taller-accent;
+}
+
+/* ===========================================================
+   BOTONES GENERALES
+   =========================================================== */
+
+.button {
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.primary-button,
+.secondary-button,
+.danger-button {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 9 18 9 18;
+    -fx-background-radius: 6;
+}
+
+.primary-button {
+    -fx-background-color: -taller-accent;
+}
+
+.primary-button:hover {
+    -fx-background-color: -taller-accent-dark;
+}
+
+.secondary-button {
+    -fx-background-color: -taller-dark;
+}
+
+.secondary-button:hover {
+    -fx-background-color: -taller-dark-hover;
+}
+
+.danger-button {
+    -fx-background-color: #B3304A;
+}
+
+.danger-button:hover {
+    -fx-background-color: #8F2439;
+}
+
+.total-label {
+    -fx-text-fill: -taller-dark;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+/* ===========================================================
+   CAMPOS DE TEXTO
+   =========================================================== */
+
+.text-field,
+.password-field,
+.combo-box-base,
+.spinner .text-field {
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: #CBD3D8;
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-padding: 7 10 7 10;
+}
+
+.text-field:focused,
+.password-field:focused {
+    -fx-border-color: -taller-accent;
+}
+
+/* ===========================================================
+   TABLAS
+   =========================================================== */
+
+.table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-color: -taller-border;
+    -fx-border-radius: 10;
+    -fx-padding: 0;
+    -fx-effect: dropshadow(gaussian, rgba(42,54,59,0.08), 8, 0, 0, 1);
+}
+
+.table-view .column-header-background {
+    -fx-background-color: -taller-dark;
+    -fx-background-radius: 10 10 0 0;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: transparent;
+    -fx-size: 38px;
+    -fx-border-color: transparent;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-row-cell {
+    -fx-cell-size: 36px;
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #EEF1F3 transparent;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #FAFBFC;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #F1F4F6;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: -taller-accent-soft;
+}
+
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: -taller-dark;
+}
+
+.table-cell {
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 10 0 10;
+    -fx-text-fill: -taller-dark;
+}
+
+/* Fila con stock bajo */
+.fila-stock-bajo {
+    -fx-background-color: -taller-accent-soft;
+}
+
+/* ===========================================================
+   PANELES, MÉTRICAS Y ESTADOS (caja, configuración, auditoría)
+   =========================================================== */
+
+.panel-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: -taller-border;
+    -fx-border-radius: 12;
+    -fx-padding: 18 20 18 20;
+    -fx-effect: dropshadow(gaussian, rgba(42,54,59,0.08), 8, 0, 0, 1);
+}
+
+.hint-label {
+    -fx-text-fill: -taller-muted;
+    -fx-font-size: 12px;
+}
+
+.metric-label {
+    -fx-text-fill: -taller-muted;
+    -fx-font-size: 13px;
+}
+
+.metric-value {
+    -fx-text-fill: -taller-dark;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.metric-value-grande {
+    -fx-text-fill: -taller-accent;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.valor-ok {
+    -fx-text-fill: #1B5E20;
+}
+
+.valor-alerta {
+    -fx-text-fill: -taller-accent-dark;
+}
+
+.estado-ok {
+    -fx-text-fill: #1B5E20;
+    -fx-font-size: 12px;
+}
+
+.estado-error {
+    -fx-text-fill: -taller-accent-dark;
+    -fx-font-size: 12px;
+}
+
+/* Indicador de caja en la barra superior */
+.caja-chip {
+    -fx-background-radius: 20;
+    -fx-font-weight: bold;
+    -fx-padding: 6 14 6 14;
+}
+
+.caja-chip-abierta {
+    -fx-background-color: #E3F4E6;
+    -fx-text-fill: #1B5E20;
+}
+
+.caja-chip-cerrada {
+    -fx-background-color: -taller-accent-soft;
+    -fx-text-fill: -taller-accent-dark;
+}
+
+/* Diálogos: botones y fondo coherentes con el resto del sistema */
+.dialog-pane {
+    -fx-background-color: white;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: -taller-bg;
+}
+
+/* ===========================================================
+   FASES 3-6: MENÚ AGRUPADO, CHIPS, ALERTAS, GRÁFICOS Y ESTADOS
+   =========================================================== */
+
+/* Menú lateral con grupos y scroll */
+.sidebar-scroll,
+.sidebar-scroll > .viewport {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.sidebar-scroll .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 6;
+}
+
+.sidebar-scroll .scroll-bar .thumb {
+    -fx-background-color: rgba(255,255,255,0.18);
+    -fx-background-radius: 3;
+}
+
+.sidebar-scroll .scroll-bar .increment-button,
+.sidebar-scroll .scroll-bar .decrement-button {
+    -fx-padding: 0;
+    -fx-pref-height: 0;
+}
+
+.sidebar-group {
+    -fx-text-fill: #7F949C;
+    -fx-font-size: 10.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 14 4 14;
+}
+
+.sidebar-button {
+    -fx-padding: 9 14 9 14;
+}
+
+.sidebar-button:pressed {
+    -fx-background-color: rgba(232,74,95,0.70);
+}
+
+/* Etiquetas de formulario */
+.form-label {
+    -fx-text-fill: -taller-dark;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+/* Detalle de las tarjetas del dashboard */
+.card-detail {
+    -fx-text-fill: #9AA7AD;
+    -fx-font-size: 11px;
+}
+
+.dashboard-card {
+    -fx-cursor: default;
+}
+
+.dashboard-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(42,54,59,0.18), 14, 0, 0, 4);
+}
+
+.dashboard-card-alert {
+    -fx-background-color: #FFF7F8;
+}
+
+.dashboard-card-alert .card-icon-box {
+    -fx-background-color: -taller-accent;
+}
+
+.dashboard-card-alert .card-icon-box .icono {
+    -fx-fill: white;
+}
+
+/* Chips de estado */
+.chip {
+    -fx-background-radius: 20;
+    -fx-padding: 3 10 3 10;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+}
+
+.chip-ok {
+    -fx-background-color: #E3F4E6;
+    -fx-text-fill: #1B5E20;
+}
+
+.chip-alerta {
+    -fx-background-color: -taller-accent-soft;
+    -fx-text-fill: -taller-accent-dark;
+}
+
+.chip-info {
+    -fx-background-color: #E4EEF7;
+    -fx-text-fill: #1F4E79;
+}
+
+.chip-neutro {
+    -fx-background-color: #ECEFF1;
+    -fx-text-fill: #546E7A;
+}
+
+/* Alertas del dashboard */
+.alerta-fila {
+    -fx-background-color: -taller-bg;
+    -fx-background-radius: 8;
+    -fx-padding: 8 10 8 10;
+}
+
+.alerta-punto {
+    -fx-min-width: 10;
+    -fx-min-height: 10;
+    -fx-max-width: 10;
+    -fx-max-height: 10;
+    -fx-background-radius: 5;
+    -fx-padding: 0;
+}
+
+.alerta-punto.chip-alerta { -fx-background-color: -taller-accent; }
+.alerta-punto.chip-ok { -fx-background-color: #2E7D32; }
+.alerta-punto.chip-info { -fx-background-color: #2F6EA5; }
+.alerta-punto.chip-neutro { -fx-background-color: #90A4AE; }
+
+.alerta-texto {
+    -fx-text-fill: -taller-dark;
+    -fx-font-size: 12.5px;
+}
+
+.link-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -taller-accent;
+    -fx-font-weight: bold;
+    -fx-padding: 2 8 2 8;
+    -fx-cursor: hand;
+}
+
+.link-button:hover {
+    -fx-underline: true;
+}
+
+/* Filas de inventario agotado */
+.fila-agotado {
+    -fx-background-color: #FBE3E7;
+}
+
+.fila-agotado .table-cell {
+    -fx-text-fill: -taller-accent-dark;
+}
+
+/* Estados de botones: hover, pressed, focus y disabled */
+.primary-button:pressed {
+    -fx-background-color: #A92F41;
+}
+
+.secondary-button:pressed {
+    -fx-background-color: #1E282C;
+}
+
+.danger-button:pressed {
+    -fx-background-color: #6F1B2C;
+}
+
+.primary-button:focused,
+.secondary-button:focused,
+.danger-button:focused {
+    -fx-effect: dropshadow(gaussian, rgba(232,74,95,0.45), 6, 0.3, 0, 0);
+}
+
+.button:disabled {
+    -fx-opacity: 0.45;
+}
+
+.tool-button:pressed {
+    -fx-background-color: -taller-accent-soft;
+}
+
+/* Combos, fechas y áreas de texto con el mismo foco que los campos */
+.combo-box-base:focused,
+.date-picker:focused,
+.text-area:focused .content {
+    -fx-border-color: -taller-accent;
+}
+
+.text-area {
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: #CBD3D8;
+}
+
+.text-area .content {
+    -fx-background-color: white;
+}
+
+/* Pestañas */
+.tab-pane .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.tab-pane .tab {
+    -fx-background-color: transparent;
+    -fx-padding: 6 14 6 14;
+    -fx-background-radius: 6 6 0 0;
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: -taller-muted;
+    -fx-font-weight: bold;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent -taller-accent transparent;
+    -fx-border-width: 0 0 3 0;
+}
+
+.tab-pane .tab:selected .tab-label {
+    -fx-text-fill: -taller-dark;
+}
+
+.tab-pane .tab:selected .focus-indicator {
+    -fx-border-color: transparent;
+}
+
+/* Lista de reportes */
+.titled-pane > .title {
+    -fx-background-color: -taller-dark;
+    -fx-background-radius: 6;
+    -fx-padding: 8 12 8 12;
+}
+
+.titled-pane > .title > .text {
+    -fx-fill: white;
+    -fx-font-weight: bold;
+}
+
+.titled-pane > .title > .arrow-button > .arrow {
+    -fx-background-color: -taller-accent;
+}
+
+.list-view {
+    -fx-background-radius: 6;
+    -fx-border-color: -taller-border;
+    -fx-border-radius: 6;
+}
+
+.list-view .list-cell:filled:selected,
+.list-view .list-cell:filled:selected:focused {
+    -fx-background-color: -taller-accent;
+    -fx-text-fill: white;
+}
+
+.list-view .list-cell:filled:hover {
+    -fx-background-color: -taller-accent-soft;
+    -fx-text-fill: -taller-dark;
+}
+
+/* Combos con la misma altura que los campos de texto */
+.combo-box {
+    -fx-padding: 2 4 2 2;
+}
+
+/* Combo editable: un solo recuadro (campo + flecha) */
+.combo-box-base:editable {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.combo-box-base:editable > .text-field {
+    -fx-background-radius: 6 0 0 6;
+    -fx-border-radius: 6 0 0 6;
+}
+
+.combo-box-base:editable > .arrow-button {
+    -fx-background-color: -taller-bg;
+    -fx-background-radius: 0 6 6 0;
+    -fx-border-color: #CBD3D8;
+    -fx-border-width: 1 1 1 0;
+    -fx-border-radius: 0 6 6 0;
+}
+
+/* Selector de fecha: un solo recuadro (campo + botón de calendario) */
+.date-picker {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.date-picker > .text-field {
+    -fx-background-radius: 6 0 0 6;
+    -fx-border-radius: 6 0 0 6;
+}
+
+.date-picker > .arrow-button {
+    -fx-background-color: -taller-bg;
+    -fx-background-radius: 0 6 6 0;
+    -fx-border-color: #CBD3D8;
+    -fx-border-width: 1 1 1 0;
+    -fx-border-radius: 0 6 6 0;
+    -fx-cursor: hand;
+}
+
+.date-picker > .arrow-button:hover {
+    -fx-background-color: -taller-accent-soft;
+}
+
+/* El valor mostrado dentro de un combo no lleva fondo de selección */
+.combo-box > .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -taller-dark;
+}
+
+/* Gráficos con la paleta del sistema */
+.chart {
+    -fx-padding: 6;
+}
+
+.chart-plot-background {
+    -fx-background-color: white;
+}
+
+.chart-vertical-grid-lines,
+.chart-horizontal-grid-lines {
+    -fx-stroke: #EEF1F3;
+}
+
+.chart-bar {
+    -fx-bar-fill: -taller-accent;
+    -fx-background-radius: 4 4 0 0;
+}
+
+.chart-bar:hover {
+    -fx-bar-fill: -taller-accent-dark;
+}
+
+.chart-series-line {
+    -fx-stroke: -taller-accent;
+    -fx-stroke-width: 3px;
+}
+
+.chart-line-symbol {
+    -fx-background-color: -taller-accent, white;
+}
+
+.axis {
+    -fx-tick-label-fill: -taller-muted;
+    -fx-tick-label-font-size: 10.5px;
+}
+
+.default-color0.chart-pie { -fx-pie-color: #E84A5F; }
+.default-color1.chart-pie { -fx-pie-color: #2A363B; }
+.default-color2.chart-pie { -fx-pie-color: #FF847C; }
+.default-color3.chart-pie { -fx-pie-color: #99B898; }
+.default-color4.chart-pie { -fx-pie-color: #FECEA8; }
+.default-color5.chart-pie { -fx-pie-color: #5C7A86; }
+.default-color6.chart-pie { -fx-pie-color: #B3304A; }
+.default-color7.chart-pie { -fx-pie-color: #A8B5BA; }
+
+.chart-pie-label {
+    -fx-fill: -taller-dark;
+    -fx-font-size: 11px;
+}
+
+/* Fotografía del producto */
+.foto-producto {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: -taller-border;
+    -fx-border-radius: 8;
+}
+
+.foto-producto.foto-vacia {
+    -fx-background-color: -taller-bg;
+}
+
+.foto-producto.foto-vacia .icono {
+    -fx-fill: #B8C3C8;
+}
+
+.table-cell .foto-producto {
+    -fx-border-color: transparent;
+}
+
+/* Divisor de los paneles divididos */
+.split-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.split-pane > .split-pane-divider {
+    -fx-background-color: -taller-border;
+    -fx-padding: 0 1 0 1;
+}
