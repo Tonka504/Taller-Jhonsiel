@@ -147,6 +147,38 @@ public final class Componentes {
         return b;
     }
 
+    /**
+     * Ejecuta la acción mostrando el estado "cargando" en el botón (indicador giratorio y texto "Procesando…").
+     * La acción corre igual que antes, en el hilo de la interfaz; solo se espera un instante para que el
+     * indicador alcance a dibujarse. Evita además el doble clic mientras se procesa.
+     */
+    public static void conCarga(Button b, Runnable accion) {
+        if (b.getStyleClass().contains("cargando")) return;
+        Node grafico = b.getGraphic();
+        String texto = b.getText();
+        javafx.scene.control.ProgressIndicator pi = new javafx.scene.control.ProgressIndicator();
+        pi.setPrefSize(15, 15);
+        pi.setMaxSize(15, 15);
+        pi.getStyleClass().add("boton-carga");
+        b.getStyleClass().add("cargando");
+        b.setMouseTransparent(true);
+        b.setGraphic(pi);
+        b.setText("Procesando…");
+        javafx.animation.PauseTransition espera = new javafx.animation.PauseTransition(javafx.util.Duration.millis(70));
+        // runLater: la acción puede abrir diálogos modales, que JavaFX no permite dentro de una animación
+        espera.setOnFinished(e -> javafx.application.Platform.runLater(() -> {
+            try {
+                accion.run();
+            } finally {
+                b.getStyleClass().remove("cargando");
+                b.setMouseTransparent(false);
+                b.setGraphic(grafico);
+                b.setText(texto);
+            }
+        }));
+        espera.play();
+    }
+
     // ------------------------------------------------------------------
     // TABLAS
     // ------------------------------------------------------------------

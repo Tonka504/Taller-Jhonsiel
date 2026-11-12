@@ -299,7 +299,7 @@ public class VistaCaja {
                 Caja cerrada = servicio.cerrar(contado, txtObservaciones.getText());
                 alCambiar.run();
                 reconstruir();
-                Alertas.info("Caja cerrada",
+                Alertas.informe("Caja cerrada",
                         "Total vendido: " + Formato.moneda(cerrada.getTotalSistema()) + "\n"
                         + "Efectivo esperado: " + Formato.moneda(cerrada.getEfectivoEsperado()) + "\n"
                         + "Efectivo contado: " + Formato.moneda(cerrada.getEfectivoContado()) + "\n"

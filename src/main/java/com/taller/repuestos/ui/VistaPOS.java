@@ -91,6 +91,11 @@ public class VistaPOS {
     private final com.taller.repuestos.service.CotizacionService cotizacionService;
     private Integer cotizacionCargada;      // cotización que se está cobrando (se marca como vendida al procesar)
     private Label lblCotizacion;
+    private Label lblUnidades;
+    private TableView<Repuesto> tablaProductosRef;
+    private javafx.scene.layout.FlowPane mosaico;
+    private Label lblMosaico;
+    private static final int MAX_TARJETAS = 80;
 
     /**
      * @param productos  la lista de repuestos del sistema (se actualiza sola cuando cambia el inventario)
@@ -194,7 +199,44 @@ public class VistaPOS {
                     + "\nCompatible con: " + (compat == null || compat.isEmpty() ? "sin vehículos registrados" : compat));
         });
 
-        VBox panelProductos = new VBox(10, lblProductos, txtBuscar, lblEstadoBusqueda, tablaProductos, ficha, btnAgregar);
+        // Vista en tarjetas (por defecto) o en lista; ambas comparten la misma selección
+        tablaProductosRef = tablaProductos;
+        mosaico = new javafx.scene.layout.FlowPane(12, 12);
+        mosaico.setPadding(new Insets(4, 4, 8, 4));
+        lblMosaico = new Label();
+        lblMosaico.getStyleClass().add("hint-label");
+        ScrollPane scrollMosaico = new ScrollPane(new VBox(6, mosaico, lblMosaico));
+        scrollMosaico.setFitToWidth(true);
+        scrollMosaico.getStyleClass().add("dashboard-scroll");
+        scrollMosaico.setPrefHeight(330);
+        javafx.scene.layout.StackPane catalogo = new javafx.scene.layout.StackPane(tablaProductos, scrollMosaico);
+        VBox.setVgrow(catalogo, Priority.ALWAYS);
+        filtrados.addListener((javafx.collections.ListChangeListener<Repuesto>) c -> reconstruirMosaico());
+        tablaProductos.getSelectionModel().selectedItemProperty().addListener((o, a, n) -> marcarTarjeta(n));
+
+        javafx.scene.control.ToggleGroup grupoVista = new javafx.scene.control.ToggleGroup();
+        javafx.scene.control.ToggleButton tgTarjetas = new javafx.scene.control.ToggleButton("Tarjetas",
+                com.taller.repuestos.util.Iconos.crear(com.taller.repuestos.util.Iconos.MOSAICO, 14));
+        javafx.scene.control.ToggleButton tgLista = new javafx.scene.control.ToggleButton("Lista",
+                com.taller.repuestos.util.Iconos.crear(com.taller.repuestos.util.Iconos.LISTA, 14));
+        for (javafx.scene.control.ToggleButton tg : List.of(tgTarjetas, tgLista)) {
+            tg.setToggleGroup(grupoVista);
+            tg.getStyleClass().add("interruptor");
+        }
+        tgTarjetas.setSelected(true);
+        tablaProductos.setVisible(false);
+        grupoVista.selectedToggleProperty().addListener((o, a, n) -> {
+            if (n == null) { a.setSelected(true); return; }
+            boolean tarjetas = n == tgTarjetas;
+            scrollMosaico.setVisible(tarjetas);
+            tablaProductos.setVisible(!tarjetas);
+        });
+        HBox encabezadoProductos = new HBox(8, lblProductos, new javafx.scene.layout.Region(), tgTarjetas, tgLista);
+        HBox.setHgrow(encabezadoProductos.getChildren().get(1), Priority.ALWAYS);
+        encabezadoProductos.setAlignment(Pos.CENTER_LEFT);
+        reconstruirMosaico();
+
+        VBox panelProductos = new VBox(10, encabezadoProductos, txtBuscar, lblEstadoBusqueda, catalogo, ficha, btnAgregar);
         panelProductos.setPrefWidth(600);
         HBox.setHgrow(panelProductos, Priority.ALWAYS);
 
@@ -290,8 +332,16 @@ public class VistaPOS {
         lblImpuesto.getStyleClass().add("metric-label");
         lblTotal = new Label();
         lblTotal.getStyleClass().add("total-label");
-        VBox panelTotales = new VBox(4, lblSubtotal, lblDescuento, lblImpuesto, lblTotal);
-        panelTotales.getStyleClass().add("panel-card");
+        Label lblResumen = new Label("RESUMEN DE LA VENTA");
+        lblResumen.getStyleClass().add("cart-total-titulo");
+        lblUnidades = new Label();
+        lblUnidades.getStyleClass().add("metric-label");
+        Label lblTotalTitulo = new Label("TOTAL A PAGAR");
+        lblTotalTitulo.getStyleClass().add("cart-total-titulo");
+        javafx.scene.control.Separator sep = new javafx.scene.control.Separator();
+        sep.setOpacity(0.35);
+        VBox panelTotales = new VBox(4, lblResumen, lblUnidades, lblSubtotal, lblDescuento, lblImpuesto, sep, lblTotalTitulo, lblTotal);
+        panelTotales.getStyleClass().add("cart-panel");
 
         // ---------------- Pago ----------------
         comboPago = new ComboBox<>();
@@ -324,7 +374,7 @@ public class VistaPOS {
         Button btnProcesar = new Button("Procesar venta");
         btnProcesar.getStyleClass().add("primary-button");
         btnProcesar.setMaxWidth(Double.MAX_VALUE);
-        btnProcesar.setOnAction(e -> procesar());
+        btnProcesar.setOnAction(e -> Componentes.conCarga(btnProcesar, this::procesar));
 
         Label lblPago = new Label("Forma de pago:");
         lblPago.getStyleClass().add("metric-label");
@@ -485,6 +535,67 @@ public class VistaPOS {
         for (ItemCarrito item : carrito) item.setPrecioUnitario(precioPara(item.getRepuesto()));
         tablaCarrito.refresh();
         actualizarTotales();
+        reconstruirMosaico(); // las tarjetas muestran el precio del cliente (minorista o mayorista)
+    }
+
+    /** Vuelve a dibujar las tarjetas con los productos que pasan el filtro de búsqueda. */
+    private void reconstruirMosaico() {
+        if (mosaico == null) return;
+        List<javafx.scene.Node> tarjetas = new ArrayList<>();
+        int n = 0;
+        for (Repuesto r : productosFiltrados) {
+            if (n++ >= MAX_TARJETAS) break;
+            tarjetas.add(tarjetaProducto(r));
+        }
+        mosaico.getChildren().setAll(tarjetas);
+        lblMosaico.setText(productosFiltrados.isEmpty() ? "No hay productos que coincidan con la búsqueda."
+                : productosFiltrados.size() > MAX_TARJETAS
+                    ? "Mostrando " + MAX_TARJETAS + " de " + productosFiltrados.size() + " productos: escribe para afinar la búsqueda."
+                    : productosFiltrados.size() + " producto(s)");
+        marcarTarjeta(tablaProductosRef.getSelectionModel().getSelectedItem());
+    }
+
+    private javafx.scene.Node tarjetaProducto(Repuesto r) {
+        FotoProducto foto = new FotoProducto(86);
+        foto.mostrar(r.getFoto());
+        Label nombre = new Label(r.getDescripcion());
+        nombre.getStyleClass().add("producto-nombre");
+        nombre.setWrapText(true);
+        nombre.setMaxHeight(36);
+        nombre.setMinHeight(36);
+        Label codigo = new Label(r.getCodigo() + (r.getMarca() == null || r.getMarca().isBlank() ? "" : " · " + r.getMarca()));
+        codigo.getStyleClass().add("producto-codigo");
+        Label precio = new Label(Formato.moneda(precioPara(r)));
+        precio.getStyleClass().add("producto-precio");
+        Label stock = Componentes.chip(r.getStock() <= 0 ? "Agotado" : (r.isStockBajo() ? "Bajo: " : "Stock: ") + r.getStock(),
+                r.getStock() <= 0 ? "alerta" : r.isStockBajo() ? "aviso" : "ok");
+        javafx.scene.layout.Region esp = new javafx.scene.layout.Region();
+        HBox.setHgrow(esp, Priority.ALWAYS);
+        HBox pie = new HBox(6, precio, esp, stock);
+        pie.setAlignment(Pos.CENTER_LEFT);
+        javafx.scene.layout.StackPane marcoFoto = new javafx.scene.layout.StackPane(foto);
+        VBox card = new VBox(6, marcoFoto, nombre, codigo, pie);
+        card.getStyleClass().add("producto-card");
+        if (r.getStock() <= 0) card.getStyleClass().add("agotada");
+        card.setPrefWidth(196);
+        card.setMaxWidth(196);
+        card.setUserData(r);
+        javafx.scene.control.Tooltip.install(card, new javafx.scene.control.Tooltip(
+                r.getDescripcion() + "\nUbicación: " + (r.getUbicacion() == null || r.getUbicacion().isBlank() ? "—" : r.getUbicacion())
+                + "\nDoble clic para agregar al carrito"));
+        card.setOnMouseClicked(e -> {
+            tablaProductosRef.getSelectionModel().select(r);
+            if (e.getClickCount() == 2) agregarAlCarrito(r);
+        });
+        return card;
+    }
+
+    private void marcarTarjeta(Repuesto seleccionado) {
+        if (mosaico == null) return;
+        for (javafx.scene.Node n : mosaico.getChildren()) {
+            n.getStyleClass().remove("seleccionada");
+            if (seleccionado != null && n.getUserData() == seleccionado) n.getStyleClass().add("seleccionada");
+        }
     }
 
     private void aplicarFiltro() {
@@ -631,7 +742,12 @@ public class VistaPOS {
         lblImpuesto.setText(config.nombreImpuesto() + " (" + porcentaje(pctImpuesto) + "%"
                 + (config.impuestoIncluido() ? ", incluido" : "") + "): " + Formato.moneda(r.impuesto));
 
-        lblTotal.setText("Total: " + Formato.moneda(r.total));
+        lblTotal.setText(Formato.moneda(r.total));
+        if (lblUnidades != null) {
+            int unidades = 0;
+            for (ItemCarrito i : carrito) unidades += i.getCantidad();
+            lblUnidades.setText(carrito.size() + " producto(s) · " + unidades + " unidad(es)");
+        }
         actualizarCambio();
     }
 

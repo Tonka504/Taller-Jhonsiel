@@ -1,440 +1,124 @@
-/* ===========================================================
-   TALLER MECÁNICO — Sistema de Gestión
-   Paleta: #2A363B (oscuro) + #E84A5F (acento) + blancos/grises
-   =========================================================== */
+/* =====================================================================
+   JOHNZIEL — Automotive Performance & Parts Management
+   Sistema de diseño: grafito + carbono + aluminio + rojo deportivo.
+   Inspiración: interiores deportivos japoneses, paneles digitales y
+   materiales industriales (acero, aluminio cepillado, fibra de carbono).
+
+   Todas las pantallas toman su aspecto de aquí: los colores de modena
+   (-fx-base, -fx-background...) se redefinen para que cualquier control
+   estándar herede el tema oscuro con buen contraste.
+   ===================================================================== */
 
 .root {
-    -taller-dark: #2A363B;
-    -taller-dark-hover: #394950;
-    -taller-accent: #E84A5F;
-    -taller-accent-dark: #C93A4E;
-    -taller-accent-soft: #FDECEF;
-    -taller-bg: #F3F5F7;
-    -taller-border: #E1E6E9;
-    -taller-muted: #6B7A82;
+    /* ---- Paleta JOHNZIEL ---- */
+    -jz-grafito: #151719;
+    -jz-carbon: #202427;
+    -jz-panel: #1B1E21;
+    -jz-panel-alto: #262B2F;
+    -jz-titanio: #454C50;
+    -jz-linea: #2E3438;
+    -jz-aluminio: #9BA3A8;
+    -jz-aluminio-claro: #C9D0D4;
+    -jz-blanco: #F1F3F4;
+    -jz-rojo: #D71920;
+    -jz-rojo-brillo: #F0343B;
+    -jz-rojo-oscuro: #8F1018;
+    -jz-concreto: #737B80;
+    -jz-verde: #36A269;
+    -jz-campo: #121416;
 
-    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+    /* ---- Nombres anteriores (compatibilidad con estilos existentes) ---- */
+    -taller-dark: -jz-blanco;
+    -taller-accent: -jz-rojo;
+    -taller-accent-dark: -jz-rojo-oscuro;
+    -taller-accent-soft: rgba(215, 25, 32, 0.16);
+    -taller-bg: -jz-grafito;
+    -taller-border: -jz-linea;
+    -taller-muted: -jz-aluminio;
+
+    /* ---- Colores base de modena (controles estándar) ---- */
+    -fx-base: #2A2F33;
+    -fx-background: #151719;
+    -fx-control-inner-background: #1C1F22;
+    -fx-control-inner-background-alt: #202427;
+    -fx-accent: #D71920;
+    -fx-default-button: #D71920;
+    -fx-focus-color: #D71920;
+    -fx-faint-focus-color: rgba(215, 25, 32, 0.20);
+    -fx-selection-bar: #8F1018;
+    -fx-selection-bar-non-focused: #5A1016;
+    -fx-selection-bar-text: #F1F3F4;
+    -fx-mark-color: #F1F3F4;
+    -fx-box-border: #2E3438;
+    -fx-text-box-border: #3A4045;
+
+    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
     -fx-font-size: 13px;
-    -fx-background-color: -taller-bg;
-    -fx-accent: -taller-accent;
-    -fx-focus-color: -taller-accent;
-    -fx-faint-focus-color: transparent;
+    -fx-background-color: -jz-grafito;
 }
 
-/* ===========================================================
-   SIDEBAR
-   =========================================================== */
+/* Tipografía de marca: Bahnschrift (geométrica, estilo instrumental) */
+.dashboard-title,
+.page-title,
+.section-title,
+.card-value,
+.total-label,
+.marca-texto,
+.hero-titulo,
+.login-titulo,
+.cart-total-valor,
+.metric-value-grande {
+    -fx-font-family: "Bahnschrift", "Segoe UI", sans-serif;
+}
+
+/* =====================================================================
+   MENÚ LATERAL — fibra de carbono, aluminio y acento rojo
+   ===================================================================== */
 
 .sidebar {
-    -fx-background-color: -taller-dark;
-    -fx-padding: 0 12 16 12;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 12, 0, 2, 0);
+    -fx-background-color: -jz-grafito;
+    -fx-background-image: url("img/carbono.png");
+    -fx-background-repeat: repeat;
+    -fx-border-color: transparent #2B3135 transparent transparent;
+    -fx-border-width: 0 1 0 0;
+    -fx-padding: 0 10 14 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.55), 18, 0, 3, 0);
 }
 
 .sidebar-header {
-    -fx-padding: 24 8 22 8;
-    -fx-border-color: transparent transparent rgba(255,255,255,0.10) transparent;
+    -fx-padding: 20 6 16 6;
+    -fx-border-color: transparent transparent #2E3438 transparent;
     -fx-border-width: 0 0 1 0;
 }
 
-.sidebar-header .icono {
-    -fx-fill: -taller-accent;
+.marca-logo {
+    -fx-effect: dropshadow(gaussian, rgba(215, 25, 32, 0.45), 14, 0.15, 0, 0);
+}
+
+.marca-texto {
+    -fx-text-fill: -jz-blanco;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.marca-franja {
+    -fx-background-color: linear-gradient(to right, -jz-rojo 0%, -jz-rojo 55%, rgba(215, 25, 32, 0) 100%);
+    -fx-min-height: 3;
+    -fx-max-height: 3;
+    -fx-background-radius: 2;
 }
 
 .sidebar-title {
-    -fx-text-fill: white;
-    -fx-font-size: 15px;
+    -fx-text-fill: -jz-blanco;
+    -fx-font-size: 13px;
     -fx-font-weight: bold;
-    -fx-letter-spacing: 1px;
 }
 
 .sidebar-subtitle {
-    -fx-text-fill: #9FB0B7;
-    -fx-font-size: 11px;
+    -fx-text-fill: #7E888E;
+    -fx-font-size: 10.5px;
 }
 
-.sidebar-button {
-    -fx-background-color: transparent;
-    -fx-background-insets: 0;
-    -fx-background-radius: 8;
-    -fx-text-fill: #CFD8DC;
-    -fx-font-size: 13.5px;
-    -fx-padding: 11 14 11 14;
-    -fx-cursor: hand;
-}
-
-.sidebar-button .icono {
-    -fx-fill: #9FB0B7;
-}
-
-.sidebar-button:hover {
-    -fx-background-color: rgba(255,255,255,0.08);
-    -fx-text-fill: white;
-}
-
-.sidebar-button:hover .icono {
-    -fx-fill: white;
-}
-
-.sidebar-button:selected {
-    -fx-background-color: -taller-accent;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-}
-
-.sidebar-button:selected .icono {
-    -fx-fill: white;
-}
-
-.sidebar-button:focused {
-    -fx-background-insets: 0;
-}
-
-/* ===========================================================
-   BARRA SUPERIOR Y ÁREA DE CONTENIDO
-   =========================================================== */
-
-.topbar {
-    -fx-background-color: white;
-    -fx-padding: 14 28 14 28;
-    -fx-border-color: transparent transparent -taller-border transparent;
-    -fx-border-width: 0 0 1 0;
-}
-
-.page-title {
-    -fx-text-fill: -taller-dark;
-    -fx-font-size: 17px;
-    -fx-font-weight: bold;
-}
-
-.user-chip {
-    -fx-background-color: -taller-bg;
-    -fx-background-radius: 20;
-    -fx-text-fill: -taller-dark;
-    -fx-font-weight: bold;
-    -fx-padding: 6 14 6 12;
-    -fx-graphic-text-gap: 8;
-}
-
-.user-chip .icono {
-    -fx-fill: -taller-accent;
-}
-
-.content-area {
-    -fx-padding: 8 12 8 12;
-}
-
-/* ===========================================================
-   DASHBOARD
-   =========================================================== */
-
-.dashboard-scroll,
-.dashboard-scroll > .viewport {
-    -fx-background-color: transparent;
-}
-
-.dashboard-title {
-    -fx-text-fill: -taller-dark;
-    -fx-font-size: 26px;
-    -fx-font-weight: bold;
-}
-
-.dashboard-subtitle {
-    -fx-text-fill: -taller-muted;
-    -fx-font-size: 13px;
-}
-
-.section-title {
-    -fx-text-fill: -taller-dark;
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-}
-
-.dashboard-card {
-    -fx-background-color: white;
-    -fx-background-radius: 12;
-    -fx-border-color: transparent transparent transparent -taller-accent;
-    -fx-border-width: 0 0 0 4;
-    -fx-border-radius: 12;
-    -fx-padding: 18 20 18 20;
-    -fx-effect: dropshadow(gaussian, rgba(42,54,59,0.10), 10, 0, 0, 2);
-}
-
-.card-icon-box {
-    -fx-background-color: -taller-dark;
-    -fx-background-radius: 12;
-    -fx-min-width: 58;
-    -fx-min-height: 58;
-    -fx-pref-width: 58;
-    -fx-pref-height: 58;
-}
-
-.card-icon-box .icono {
-    -fx-fill: -taller-accent;
-}
-
-.card-value {
-    -fx-text-fill: -taller-dark;
-    -fx-font-size: 26px;
-    -fx-font-weight: bold;
-}
-
-.card-label {
-    -fx-text-fill: -taller-muted;
-    -fx-font-size: 12.5px;
-}
-
-.dashboard-card-alert .card-value {
-    -fx-text-fill: -taller-accent;
-}
-
-/* ===========================================================
-   BOTONES TIPO HERRAMIENTA (acciones rápidas)
-   =========================================================== */
-
-.tool-button {
-    -fx-background-color: white;
-    -fx-background-radius: 12;
-    -fx-border-color: -taller-border;
-    -fx-border-radius: 12;
-    -fx-text-fill: -taller-dark;
-    -fx-font-weight: bold;
-    -fx-padding: 16 12 14 12;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(42,54,59,0.10), 8, 0, 0, 2);
-}
-
-.tool-button .icono {
-    -fx-fill: -taller-dark;
-}
-
-.tool-button:hover {
-    -fx-border-color: -taller-accent;
-    -fx-effect: dropshadow(gaussian, rgba(42,54,59,0.30), 18, 0, 0, 6);
-}
-
-.tool-button:hover .icono {
-    -fx-fill: -taller-accent;
-}
-
-/* ===========================================================
-   BOTONES GENERALES
-   =========================================================== */
-
-.button {
-    -fx-background-radius: 6;
-    -fx-cursor: hand;
-}
-
-.primary-button,
-.secondary-button,
-.danger-button {
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-padding: 9 18 9 18;
-    -fx-background-radius: 6;
-}
-
-.primary-button {
-    -fx-background-color: -taller-accent;
-}
-
-.primary-button:hover {
-    -fx-background-color: -taller-accent-dark;
-}
-
-.secondary-button {
-    -fx-background-color: -taller-dark;
-}
-
-.secondary-button:hover {
-    -fx-background-color: -taller-dark-hover;
-}
-
-.danger-button {
-    -fx-background-color: #B3304A;
-}
-
-.danger-button:hover {
-    -fx-background-color: #8F2439;
-}
-
-.total-label {
-    -fx-text-fill: -taller-dark;
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-}
-
-/* ===========================================================
-   CAMPOS DE TEXTO
-   =========================================================== */
-
-.text-field,
-.password-field,
-.combo-box-base,
-.spinner .text-field {
-    -fx-background-radius: 6;
-    -fx-border-radius: 6;
-    -fx-border-color: #CBD3D8;
-    -fx-background-color: white;
-    -fx-background-insets: 0;
-    -fx-padding: 7 10 7 10;
-}
-
-.text-field:focused,
-.password-field:focused {
-    -fx-border-color: -taller-accent;
-}
-
-/* ===========================================================
-   TABLAS
-   =========================================================== */
-
-.table-view {
-    -fx-background-color: white;
-    -fx-background-radius: 10;
-    -fx-border-color: -taller-border;
-    -fx-border-radius: 10;
-    -fx-padding: 0;
-    -fx-effect: dropshadow(gaussian, rgba(42,54,59,0.08), 8, 0, 0, 1);
-}
-
-.table-view .column-header-background {
-    -fx-background-color: -taller-dark;
-    -fx-background-radius: 10 10 0 0;
-}
-
-.table-view .column-header,
-.table-view .filler {
-    -fx-background-color: transparent;
-    -fx-size: 38px;
-    -fx-border-color: transparent;
-}
-
-.table-view .column-header .label {
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-font-size: 12px;
-    -fx-alignment: CENTER_LEFT;
-}
-
-.table-row-cell {
-    -fx-cell-size: 36px;
-    -fx-background-color: white;
-    -fx-border-color: transparent transparent #EEF1F3 transparent;
-}
-
-.table-row-cell:odd {
-    -fx-background-color: #FAFBFC;
-}
-
-.table-row-cell:hover {
-    -fx-background-color: #F1F4F6;
-}
-
-.table-row-cell:selected {
-    -fx-background-color: -taller-accent-soft;
-}
-
-.table-row-cell:selected .table-cell {
-    -fx-text-fill: -taller-dark;
-}
-
-.table-cell {
-    -fx-alignment: CENTER_LEFT;
-    -fx-padding: 0 10 0 10;
-    -fx-text-fill: -taller-dark;
-}
-
-/* Fila con stock bajo */
-.fila-stock-bajo {
-    -fx-background-color: -taller-accent-soft;
-}
-
-/* ===========================================================
-   PANELES, MÉTRICAS Y ESTADOS (caja, configuración, auditoría)
-   =========================================================== */
-
-.panel-card {
-    -fx-background-color: white;
-    -fx-background-radius: 12;
-    -fx-border-color: -taller-border;
-    -fx-border-radius: 12;
-    -fx-padding: 18 20 18 20;
-    -fx-effect: dropshadow(gaussian, rgba(42,54,59,0.08), 8, 0, 0, 1);
-}
-
-.hint-label {
-    -fx-text-fill: -taller-muted;
-    -fx-font-size: 12px;
-}
-
-.metric-label {
-    -fx-text-fill: -taller-muted;
-    -fx-font-size: 13px;
-}
-
-.metric-value {
-    -fx-text-fill: -taller-dark;
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-}
-
-.metric-value-grande {
-    -fx-text-fill: -taller-accent;
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-}
-
-.valor-ok {
-    -fx-text-fill: #1B5E20;
-}
-
-.valor-alerta {
-    -fx-text-fill: -taller-accent-dark;
-}
-
-.estado-ok {
-    -fx-text-fill: #1B5E20;
-    -fx-font-size: 12px;
-}
-
-.estado-error {
-    -fx-text-fill: -taller-accent-dark;
-    -fx-font-size: 12px;
-}
-
-/* Indicador de caja en la barra superior */
-.caja-chip {
-    -fx-background-radius: 20;
-    -fx-font-weight: bold;
-    -fx-padding: 6 14 6 14;
-}
-
-.caja-chip-abierta {
-    -fx-background-color: #E3F4E6;
-    -fx-text-fill: #1B5E20;
-}
-
-.caja-chip-cerrada {
-    -fx-background-color: -taller-accent-soft;
-    -fx-text-fill: -taller-accent-dark;
-}
-
-/* Diálogos: botones y fondo coherentes con el resto del sistema */
-.dialog-pane {
-    -fx-background-color: white;
-}
-
-.dialog-pane .header-panel {
-    -fx-background-color: -taller-bg;
-}
-
-/* ===========================================================
-   FASES 3-6: MENÚ AGRUPADO, CHIPS, ALERTAS, GRÁFICOS Y ESTADOS
-   =========================================================== */
-
-/* Menú lateral con grupos y scroll */
 .sidebar-scroll,
 .sidebar-scroll > .viewport {
     -fx-background-color: transparent;
@@ -448,7 +132,7 @@
 }
 
 .sidebar-scroll .scroll-bar .thumb {
-    -fx-background-color: rgba(255,255,255,0.18);
+    -fx-background-color: rgba(255, 255, 255, 0.16);
     -fx-background-radius: 3;
 }
 
@@ -459,85 +143,918 @@
 }
 
 .sidebar-group {
-    -fx-text-fill: #7F949C;
+    -fx-text-fill: #69737A;
+    -fx-font-family: "Bahnschrift", "Segoe UI", sans-serif;
     -fx-font-size: 10.5px;
     -fx-font-weight: bold;
-    -fx-padding: 12 14 4 14;
+    -fx-padding: 14 12 4 12;
 }
 
 .sidebar-button {
-    -fx-padding: 9 14 9 14;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0 8 8 0;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 0 3;
+    -fx-text-fill: #B4BCC0;
+    -fx-font-size: 13px;
+    -fx-padding: 9 12 9 12;
+    -fx-cursor: hand;
+    transition: -fx-background-color 160ms ease, -fx-text-fill 160ms ease;
+}
+
+.sidebar-button .icono {
+    -fx-fill: #858F95;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+    -fx-text-fill: white;
+}
+
+.sidebar-button:hover .icono {
+    -fx-fill: -jz-rojo-brillo;
 }
 
 .sidebar-button:pressed {
-    -fx-background-color: rgba(232,74,95,0.70);
+    -fx-background-color: rgba(215, 25, 32, 0.30);
 }
 
-/* Etiquetas de formulario */
+.sidebar-button:selected {
+    -fx-background-color: linear-gradient(to right, rgba(215, 25, 32, 0.32) 0%, rgba(215, 25, 32, 0.08) 70%, transparent 100%);
+    -fx-border-color: -jz-rojo;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.sidebar-button:selected .icono {
+    -fx-fill: -jz-rojo-brillo;
+    -fx-effect: dropshadow(gaussian, rgba(240, 52, 59, 0.75), 8, 0.3, 0, 0);
+}
+
+.sidebar-button:focused {
+    -fx-background-insets: 0;
+}
+
+/* =====================================================================
+   BARRA SUPERIOR Y ÁREA DE TRABAJO (concreto pulido oscuro)
+   ===================================================================== */
+
+.topbar {
+    -fx-background-color: linear-gradient(to bottom, #1E2225 0%, #191C1F 100%);
+    -fx-padding: 12 24 12 24;
+    -fx-border-color: transparent transparent #2B3135 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.45), 10, 0, 0, 2);
+}
+
+.page-title {
+    -fx-text-fill: -jz-blanco;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.user-chip {
+    -fx-background-color: linear-gradient(to bottom, #2A2F33, #212528);
+    -fx-background-radius: 20;
+    -fx-border-color: #3A4146;
+    -fx-border-radius: 20;
+    -fx-text-fill: -jz-blanco;
+    -fx-font-weight: bold;
+    -fx-padding: 6 14 6 12;
+    -fx-graphic-text-gap: 8;
+}
+
+.user-chip .icono {
+    -fx-fill: -jz-rojo-brillo;
+}
+
+.caja-chip {
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-font-weight: bold;
+    -fx-padding: 6 14 6 14;
+}
+
+.caja-chip-abierta {
+    -fx-background-color: rgba(54, 162, 105, 0.16);
+    -fx-border-color: rgba(54, 162, 105, 0.55);
+    -fx-text-fill: #6FD39C;
+}
+
+.caja-chip-cerrada {
+    -fx-background-color: rgba(215, 25, 32, 0.14);
+    -fx-border-color: rgba(215, 25, 32, 0.55);
+    -fx-text-fill: #FF7A7F;
+}
+
+.content-area {
+    -fx-background-color:
+        radial-gradient(center 15% 0%, radius 70%, rgba(215, 25, 32, 0.07), transparent),
+        linear-gradient(to bottom, #181B1E 0%, #131517 100%);
+    -fx-padding: 6 10 6 10;
+}
+
+.dashboard-scroll,
+.dashboard-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* =====================================================================
+   TEXTOS
+   ===================================================================== */
+
+.label {
+    -fx-text-fill: #DDE2E4;
+}
+
+.dashboard-title {
+    -fx-text-fill: -jz-blanco;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+.dashboard-subtitle,
+.hint-label {
+    -fx-text-fill: #8E979C;
+    -fx-font-size: 12px;
+}
+
+.section-title {
+    -fx-text-fill: -jz-blanco;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-border-color: transparent transparent transparent -jz-rojo;
+    -fx-border-width: 0 0 0 3;
+    -fx-padding: 0 0 0 9;
+}
+
 .form-label {
-    -fx-text-fill: -taller-dark;
+    -fx-text-fill: -jz-aluminio-claro;
     -fx-font-weight: bold;
     -fx-font-size: 12px;
 }
 
-/* Detalle de las tarjetas del dashboard */
-.card-detail {
-    -fx-text-fill: #9AA7AD;
-    -fx-font-size: 11px;
+.metric-label {
+    -fx-text-fill: -jz-aluminio;
+    -fx-font-size: 13px;
+}
+
+.metric-value {
+    -fx-text-fill: -jz-blanco;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.metric-value-grande {
+    -fx-text-fill: -jz-rojo-brillo;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.total-label {
+    -fx-text-fill: -jz-blanco;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.valor-ok, .estado-ok { -fx-text-fill: #6FD39C; }
+.valor-alerta, .estado-error { -fx-text-fill: #FF6B70; }
+.estado-ok, .estado-error { -fx-font-size: 12px; }
+
+/* =====================================================================
+   TARJETAS Y PANELES (metal anodizado oscuro con brillo superior)
+   ===================================================================== */
+
+.panel-card {
+    -fx-background-color:
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0) 3%),
+        linear-gradient(to bottom, #252A2E 0%, #1D2124 100%);
+    -fx-background-radius: 10;
+    -fx-border-color: #313840 #2A3035 #23282C #2A3035;
+    -fx-border-radius: 10;
+    -fx-padding: 16 18 16 18;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.45), 14, 0, 0, 3);
 }
 
 .dashboard-card {
+    -fx-background-color:
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 4%),
+        linear-gradient(to bottom right, #2A3034 0%, #1E2225 60%, #1A1D20 100%);
+    -fx-background-radius: 10;
+    -fx-border-color: #343B41 #2A3035 #22272B -jz-rojo;
+    -fx-border-width: 1 1 1 3;
+    -fx-border-radius: 10;
+    -fx-padding: 16 18 16 16;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 14, 0, 0, 4);
     -fx-cursor: default;
+    transition: -fx-translate-y 160ms ease;
 }
 
 .dashboard-card:hover {
-    -fx-effect: dropshadow(gaussian, rgba(42,54,59,0.18), 14, 0, 0, 4);
+    -fx-translate-y: -2;
+    -fx-effect: dropshadow(gaussian, rgba(215, 25, 32, 0.28), 18, 0, 0, 6);
+}
+
+.card-icon-box {
+    -fx-background-color:
+        linear-gradient(to bottom, #4A5257 0%, #2C3236 55%, #22272A 100%);
+    -fx-background-radius: 12;
+    -fx-border-color: rgba(255, 255, 255, 0.10) transparent rgba(0, 0, 0, 0.4) transparent;
+    -fx-border-radius: 12;
+    -fx-min-width: 54;
+    -fx-min-height: 54;
+    -fx-pref-width: 54;
+    -fx-pref-height: 54;
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.5), 6, 0, 0, 1);
+}
+
+.card-icon-box .icono {
+    -fx-fill: -jz-rojo-brillo;
+}
+
+.card-value {
+    -fx-text-fill: -jz-blanco;
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+}
+
+.card-label {
+    -fx-text-fill: -jz-aluminio-claro;
+    -fx-font-size: 12.5px;
+}
+
+.card-detail {
+    -fx-text-fill: #7E888E;
+    -fx-font-size: 11px;
 }
 
 .dashboard-card-alert {
-    -fx-background-color: #FFF7F8;
+    -fx-background-color:
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 4%),
+        linear-gradient(to bottom right, #3A1B1E 0%, #241A1C 60%, #1E1A1B 100%);
+}
+
+.dashboard-card-alert .card-value {
+    -fx-text-fill: -jz-rojo-brillo;
 }
 
 .dashboard-card-alert .card-icon-box {
-    -fx-background-color: -taller-accent;
+    -fx-background-color: linear-gradient(to bottom, #F0343B 0%, #D71920 50%, #8F1018 100%);
 }
 
 .dashboard-card-alert .card-icon-box .icono {
     -fx-fill: white;
 }
 
-/* Chips de estado */
+/* Bienvenida del dashboard con fotografía panorámica */
+.hero {
+    -fx-background-color: #101214;
+    -fx-background-radius: 14;
+    -fx-border-color: #2E3438;
+    -fx-border-radius: 14;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 20, 0, 0, 6);
+}
+
+.hero-titulo {
+    -fx-text-fill: white;
+    -fx-font-size: 34px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 10, 0.2, 0, 2);
+}
+
+.hero-subtitulo {
+    -fx-text-fill: #D5DADD;
+    -fx-font-size: 13.5px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 8, 0.2, 0, 1);
+}
+
+.hero-etiqueta {
+    -fx-text-fill: white;
+    -fx-font-family: "Bahnschrift", "Segoe UI", sans-serif;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-background-color: -jz-rojo;
+    -fx-background-radius: 3;
+    -fx-padding: 3 10 3 10;
+}
+
+.hero-dato {
+    -fx-background-color: rgba(10, 12, 14, 0.62);
+    -fx-background-radius: 8;
+    -fx-border-color: rgba(255, 255, 255, 0.10) transparent transparent -jz-rojo;
+    -fx-border-width: 1 0 0 3;
+    -fx-border-radius: 8;
+    -fx-padding: 8 14 8 12;
+}
+
+.hero-dato-valor {
+    -fx-text-fill: white;
+    -fx-font-family: "Bahnschrift", "Segoe UI", sans-serif;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.hero-dato-texto {
+    -fx-text-fill: #AEB6BA;
+    -fx-font-size: 11px;
+}
+
+/* =====================================================================
+   BOTONES
+   Estados: normal · hover (iluminación) · pressed (presión) ·
+            focused · disabled · cargando
+   ===================================================================== */
+
+.button,
+.interruptor {
+    -fx-background-radius: 7;
+    -fx-cursor: hand;
+    transition: -fx-scale-x 90ms ease, -fx-scale-y 90ms ease;
+}
+
+.button:pressed,
+.interruptor:pressed {
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
+}
+
+/* Botón base de modena (diálogos y botones sin clase): aluminio oscuro */
+.button {
+    -fx-background-color:
+        linear-gradient(to bottom, #3D444A 0%, #2B3135 100%);
+    -fx-background-insets: 0;
+    -fx-border-color: #4A5258 #3A4146 #24292D #3A4146;
+    -fx-border-radius: 7;
+    -fx-text-fill: -jz-blanco;
+    -fx-padding: 7 14 7 14;
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to bottom, #485056 0%, #33393E 100%);
+}
+
+/* Principal: metal deportivo rojo con brillo superior */
+.primary-button,
+.dialog-pane .button:default {
+    -fx-background-color:
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 48%),
+        linear-gradient(to bottom, #E8323A 0%, #D71920 50%, #A9131B 100%);
+    -fx-background-insets: 0;
+    -fx-border-color: #F25A60 #B5141C #6E0C12 #B5141C;
+    -fx-border-radius: 7;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 9 18 9 18;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.55), 8, 0, 0, 2);
+}
+
+.primary-button:hover,
+.dialog-pane .button:default:hover {
+    -fx-background-color:
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0) 48%),
+        linear-gradient(to bottom, #F2434B 0%, #E1222A 50%, #B5161E 100%);
+    -fx-effect: dropshadow(gaussian, rgba(240, 52, 59, 0.65), 16, 0.15, 0, 0);
+}
+
+.primary-button:pressed,
+.dialog-pane .button:default:pressed {
+    -fx-background-color: linear-gradient(to bottom, #9C1219 0%, #B8161E 100%);
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.6), 8, 0, 0, 2);
+}
+
+.primary-button .icono,
+.danger-button:hover .icono {
+    -fx-fill: white;
+}
+
+/* Secundario: aluminio cepillado */
+.secondary-button {
+    -fx-background-color: #2C3236;
+    -fx-background-image: url("img/aluminio.jpg");
+    -fx-background-size: cover;
+    -fx-background-insets: 0;
+    -fx-border-color: #545C62 #40474C #24292D #40474C;
+    -fx-border-radius: 7;
+    -fx-text-fill: -jz-blanco;
+    -fx-font-weight: bold;
+    -fx-padding: 9 16 9 16;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.45), 6, 0, 0, 2);
+}
+
+.secondary-button:hover {
+    -fx-border-color: #8C959B #6A7379 #3A4146 #6A7379;
+    -fx-effect: dropshadow(gaussian, rgba(155, 163, 168, 0.35), 12, 0.1, 0, 0);
+}
+
+.secondary-button:pressed {
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.7), 8, 0, 0, 2);
+}
+
+.secondary-button .icono {
+    -fx-fill: -jz-aluminio-claro;
+}
+
+.secondary-button:hover .icono {
+    -fx-fill: -jz-rojo-brillo;
+}
+
+/* Eliminar / anular: oscuro con detalles rojos; se ilumina al acercarse */
+.danger-button {
+    -fx-background-color: linear-gradient(to bottom, #2E1A1C 0%, #221416 100%);
+    -fx-background-insets: 0;
+    -fx-border-color: #8F1018;
+    -fx-border-radius: 7;
+    -fx-text-fill: #FF7A7F;
+    -fx-font-weight: bold;
+    -fx-padding: 9 16 9 16;
+}
+
+.danger-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #C4161E 0%, #8F1018 100%);
+    -fx-border-color: #F0343B;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(215, 25, 32, 0.55), 14, 0.1, 0, 0);
+}
+
+.danger-button:pressed {
+    -fx-background-color: #6E0C12;
+}
+
+.danger-button .icono {
+    -fx-fill: #FF7A7F;
+}
+
+/* Guardar / éxito: acabado industrial con acento verde */
+.save-button {
+    -fx-background-color:
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 48%),
+        linear-gradient(to bottom, #3FB577 0%, #2E8E5B 100%);
+    -fx-border-color: #5ACB8E #2A7D51 #1D5A3A #2A7D51;
+    -fx-border-radius: 7;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.primary-button:focused,
+.secondary-button:focused,
+.danger-button:focused,
+.button:focused {
+    -fx-background-insets: 0;
+}
+
+.button:focused {
+    -fx-border-color: -jz-rojo-brillo;
+}
+
+.button:disabled,
+.toggle-button:disabled {
+    -fx-opacity: 0.38;
+    -fx-effect: null;
+}
+
+/* Cargando: se muestra un indicador giratorio y el botón queda bloqueado */
+.button.cargando {
+    -fx-opacity: 0.85;
+}
+
+.button.cargando .progress-indicator > .spinner {
+    -fx-border-color: transparent;
+}
+
+.boton-carga > .determinate-indicator > .indicator,
+.boton-carga .segment {
+    -fx-background-color: white;
+}
+
+/* Botones tipo herramienta (accesos rápidos): control digital automotriz */
+.tool-button {
+    -fx-background-color:
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0) 5%),
+        linear-gradient(to bottom, #262B2F 0%, #1C2023 100%);
+    -fx-background-radius: 12;
+    -fx-border-color: #343B41 #2A3035 #1F2326 #2A3035;
+    -fx-border-radius: 12;
+    -fx-text-fill: -jz-aluminio-claro;
+    -fx-font-weight: bold;
+    -fx-padding: 14 12 12 12;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 3);
+}
+
+.tool-button .icono {
+    -fx-fill: -jz-aluminio;
+}
+
+.tool-button:hover {
+    -fx-border-color: -jz-rojo;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(215, 25, 32, 0.45), 18, 0.1, 0, 4);
+}
+
+.tool-button:hover .icono {
+    -fx-fill: -jz-rojo-brillo;
+}
+
+.tool-button:pressed {
+    -fx-background-color: linear-gradient(to bottom, #3A1B1E 0%, #241416 100%);
+}
+
+.link-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: -jz-rojo-brillo;
+    -fx-font-weight: bold;
+    -fx-padding: 2 8 2 8;
+    -fx-effect: null;
+}
+
+.link-button:hover {
+    -fx-underline: true;
+    -fx-background-color: transparent;
+}
+
+/* Interruptor de vista (tarjetas / lista) */
+.interruptor {
+    -fx-background-color: linear-gradient(to bottom, #2D3337, #23282B);
+    -fx-border-color: #3A4146;
+    -fx-border-radius: 7;
+    -fx-text-fill: -jz-aluminio-claro;
+    -fx-padding: 6 12 6 12;
+}
+
+.interruptor:selected {
+    -fx-background-color: linear-gradient(to bottom, #E8323A, #A9131B);
+    -fx-border-color: #F25A60;
+    -fx-text-fill: white;
+}
+
+/* =====================================================================
+   CAMPOS (goma técnica: oscuros, con borde que se ilumina al enfocar)
+   ===================================================================== */
+
+.text-field,
+.password-field,
+.text-area,
+.combo-box-base,
+.spinner .text-field {
+    -fx-background-color: -jz-campo;
+    -fx-background-radius: 7;
+    -fx-background-insets: 0;
+    -fx-border-color: #353C41;
+    -fx-border-radius: 7;
+    -fx-text-fill: -jz-blanco;
+    -fx-prompt-text-fill: #646D72;
+    -fx-highlight-fill: -jz-rojo-oscuro;
+    -fx-highlight-text-fill: white;
+    -fx-padding: 7 10 7 10;
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.55), 5, 0, 0, 1);
+}
+
+.text-field:hover,
+.password-field:hover,
+.combo-box-base:hover {
+    -fx-border-color: #4A5258;
+}
+
+.text-field:focused,
+.password-field:focused,
+.combo-box-base:focused,
+.date-picker:focused,
+.text-area:focused {
+    -fx-border-color: -jz-rojo;
+    -fx-effect: dropshadow(gaussian, rgba(215, 25, 32, 0.35), 8, 0, 0, 0);
+}
+
+.text-field:disabled,
+.text-area:disabled,
+.combo-box-base:disabled {
+    -fx-opacity: 0.5;
+}
+
+.text-area .content {
+    -fx-background-color: -jz-campo;
+    -fx-background-radius: 7;
+}
+
+.combo-box {
+    -fx-padding: 2 4 2 2;
+}
+
+.combo-box .arrow,
+.date-picker .arrow {
+    -fx-background-color: -jz-aluminio;
+}
+
+.combo-box > .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -jz-blanco;
+}
+
+/* Combo editable: un solo recuadro (campo + flecha) */
+.combo-box-base:editable {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-effect: null;
+}
+
+.combo-box-base:editable > .text-field {
+    -fx-background-radius: 7 0 0 7;
+    -fx-border-radius: 7 0 0 7;
+}
+
+.combo-box-base:editable > .arrow-button {
+    -fx-background-color: #23282B;
+    -fx-background-radius: 0 7 7 0;
+    -fx-border-color: #353C41;
+    -fx-border-width: 1 1 1 0;
+    -fx-border-radius: 0 7 7 0;
+}
+
+/* Selector de fecha: un solo recuadro (campo + calendario) */
+.date-picker {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-effect: null;
+}
+
+.date-picker > .text-field {
+    -fx-background-radius: 7 0 0 7;
+    -fx-border-radius: 7 0 0 7;
+}
+
+.date-picker > .arrow-button {
+    -fx-background-color: #23282B;
+    -fx-background-radius: 0 7 7 0;
+    -fx-border-color: #353C41;
+    -fx-border-width: 1 1 1 0;
+    -fx-border-radius: 0 7 7 0;
+    -fx-cursor: hand;
+}
+
+.date-picker > .arrow-button:hover,
+.combo-box-base:editable > .arrow-button:hover {
+    -fx-background-color: rgba(215, 25, 32, 0.30);
+}
+
+.date-picker-popup {
+    -fx-background-color: #1E2225;
+    -fx-border-color: #3A4146;
+}
+
+.date-picker-popup .month-year-pane {
+    -fx-background-color: #2A2F33;
+}
+
+.date-picker-popup .selected {
+    -fx-background-color: -jz-rojo;
+}
+
+/* Listas desplegables */
+.combo-box-popup > .list-view,
+.context-menu {
+    -fx-background-color: #1E2225;
+    -fx-border-color: #3A4146;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 12, 0, 0, 4);
+}
+
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell {
+    -fx-background-color: #1E2225;
+    -fx-text-fill: #DDE2E4;
+    -fx-padding: 6 10 6 10;
+}
+
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:hover {
+    -fx-background-color: rgba(215, 25, 32, 0.25);
+    -fx-text-fill: white;
+}
+
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected {
+    -fx-background-color: -jz-rojo;
+    -fx-text-fill: white;
+}
+
+.menu-item:focused {
+    -fx-background-color: -jz-rojo;
+}
+
+.check-box {
+    -fx-text-fill: #DDE2E4;
+}
+
+.check-box > .box {
+    -fx-background-color: -jz-campo;
+    -fx-border-color: #4A5258;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.check-box:selected > .box {
+    -fx-background-color: -jz-rojo;
+    -fx-border-color: -jz-rojo-brillo;
+}
+
+.check-box:selected > .box > .mark {
+    -fx-background-color: white;
+}
+
+.tooltip {
+    -fx-background-color: #0F1112;
+    -fx-background-radius: 6;
+    -fx-border-color: -jz-rojo;
+    -fx-border-width: 0 0 0 3;
+    -fx-text-fill: -jz-blanco;
+    -fx-font-size: 12px;
+    -fx-padding: 6 10 6 10;
+}
+
+/* =====================================================================
+   TABLAS — encabezado grafito con filo rojo, filas alternadas
+   ===================================================================== */
+
+.table-view {
+    -fx-background-color: #1C1F22;
+    -fx-background-radius: 10;
+    -fx-border-color: #2E3438;
+    -fx-border-radius: 10;
+    -fx-padding: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.45), 12, 0, 0, 2);
+    -fx-table-cell-border-color: #262B2F;
+}
+
+.table-view:focused {
+    -fx-background-insets: 0;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom, #2E3438 0%, #23282B 100%);
+    -fx-background-radius: 10 10 0 0;
+    -fx-border-color: transparent transparent -jz-rojo transparent;
+    -fx-border-width: 0 0 2 0;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: transparent;
+    -fx-size: 38px;
+    -fx-border-color: transparent #353C41 transparent transparent;
+    -fx-border-width: 0 1 0 0;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: -jz-aluminio-claro;
+    -fx-font-weight: bold;
+    -fx-font-size: 11.5px;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-view .column-header .arrow {
+    -fx-background-color: -jz-rojo-brillo;
+}
+
+.table-view .placeholder .label {
+    -fx-text-fill: #737B80;
+}
+
+.table-row-cell {
+    -fx-cell-size: 36px;
+    -fx-background-color: #1C1F22;
+    -fx-border-color: transparent transparent #24292C transparent;
+    -fx-text-fill: #E6E9EA;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #202427;
+}
+
+/* Filas de inventario con stock bajo / agotado (antes de hover y selección para que estos sigan viéndose) */
+.table-row-cell.fila-stock-bajo {
+    -fx-background-color: #2A2419;
+}
+
+.table-row-cell.fila-agotado {
+    -fx-background-color: #33191B;
+}
+
+.table-row-cell.fila-agotado .table-cell {
+    -fx-text-fill: #FF8A8E;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #2A3034;
+}
+
+.table-row-cell:selected,
+.table-row-cell:selected:hover {
+    -fx-background-color: linear-gradient(to right, rgba(215, 25, 32, 0.40) 0%, rgba(215, 25, 32, 0.16) 40%, rgba(215, 25, 32, 0.12) 100%);
+}
+
+.table-cell {
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 10 0 10;
+    -fx-text-fill: #E6E9EA;
+    -fx-border-color: transparent;
+}
+
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: white;
+}
+
+
+/* Barras de desplazamiento finas y oscuras */
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #3A4146;
+    -fx-background-radius: 5;
+    -fx-background-insets: 2;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #59626A;
+}
+
+.scroll-bar .track,
+.scroll-bar .track-background {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 3;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-background-color: #59626A;
+}
+
+.scroll-pane,
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .corner,
+.table-view .corner {
+    -fx-background-color: transparent;
+}
+
+/* =====================================================================
+   CHIPS DE ESTADO
+   ===================================================================== */
+
 .chip {
     -fx-background-radius: 20;
+    -fx-border-radius: 20;
     -fx-padding: 3 10 3 10;
     -fx-font-size: 11.5px;
     -fx-font-weight: bold;
 }
 
 .chip-ok {
-    -fx-background-color: #E3F4E6;
-    -fx-text-fill: #1B5E20;
+    -fx-background-color: rgba(54, 162, 105, 0.18);
+    -fx-border-color: rgba(54, 162, 105, 0.45);
+    -fx-text-fill: #6FD39C;
 }
 
 .chip-alerta {
-    -fx-background-color: -taller-accent-soft;
-    -fx-text-fill: -taller-accent-dark;
+    -fx-background-color: rgba(215, 25, 32, 0.20);
+    -fx-border-color: rgba(215, 25, 32, 0.55);
+    -fx-text-fill: #FF7A7F;
 }
 
 .chip-info {
-    -fx-background-color: #E4EEF7;
-    -fx-text-fill: #1F4E79;
+    -fx-background-color: rgba(155, 163, 168, 0.16);
+    -fx-border-color: rgba(155, 163, 168, 0.45);
+    -fx-text-fill: #D5DADD;
 }
 
 .chip-neutro {
-    -fx-background-color: #ECEFF1;
-    -fx-text-fill: #546E7A;
+    -fx-background-color: rgba(115, 123, 128, 0.18);
+    -fx-border-color: rgba(115, 123, 128, 0.35);
+    -fx-text-fill: #9BA3A8;
 }
 
-/* Alertas del dashboard */
+.chip-aviso {
+    -fx-background-color: rgba(240, 164, 52, 0.16);
+    -fx-border-color: rgba(240, 164, 52, 0.5);
+    -fx-text-fill: #F5B860;
+}
+
+/* =====================================================================
+   ALERTAS DEL DASHBOARD
+   ===================================================================== */
+
 .alerta-fila {
-    -fx-background-color: -taller-bg;
+    -fx-background-color: linear-gradient(to right, #23282B 0%, #1E2225 100%);
     -fx-background-radius: 8;
+    -fx-border-color: #2E3438;
+    -fx-border-radius: 8;
     -fx-padding: 8 10 8 10;
 }
 
@@ -547,86 +1064,61 @@
     -fx-max-width: 10;
     -fx-max-height: 10;
     -fx-background-radius: 5;
+    -fx-border-width: 0;
     -fx-padding: 0;
 }
 
-.alerta-punto.chip-alerta { -fx-background-color: -taller-accent; }
-.alerta-punto.chip-ok { -fx-background-color: #2E7D32; }
-.alerta-punto.chip-info { -fx-background-color: #2F6EA5; }
-.alerta-punto.chip-neutro { -fx-background-color: #90A4AE; }
+.alerta-punto.chip-alerta { -fx-background-color: -jz-rojo-brillo; -fx-effect: dropshadow(gaussian, rgba(240, 52, 59, 0.8), 6, 0.3, 0, 0); }
+.alerta-punto.chip-ok { -fx-background-color: -jz-verde; -fx-effect: dropshadow(gaussian, rgba(54, 162, 105, 0.8), 6, 0.3, 0, 0); }
+.alerta-punto.chip-info { -fx-background-color: -jz-aluminio; }
+.alerta-punto.chip-neutro { -fx-background-color: -jz-concreto; }
 
 .alerta-texto {
-    -fx-text-fill: -taller-dark;
+    -fx-text-fill: #E6E9EA;
     -fx-font-size: 12.5px;
 }
 
-.link-button {
-    -fx-background-color: transparent;
-    -fx-text-fill: -taller-accent;
+/* =====================================================================
+   DIÁLOGOS
+   ===================================================================== */
+
+.dialog-pane {
+    -fx-background-color: linear-gradient(to bottom, #22272A 0%, #1B1E21 100%);
+    -fx-border-color: #3A4146;
+}
+
+.dialog-pane > .header-panel {
+    -fx-background-color: linear-gradient(to bottom, #2A2F33 0%, #1F2326 100%);
+    -fx-border-color: transparent transparent -jz-rojo transparent;
+    -fx-border-width: 0 0 2 0;
+}
+
+.dialog-pane > .header-panel .label {
+    -fx-text-fill: -jz-blanco;
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-padding: 2 8 2 8;
-    -fx-cursor: hand;
 }
 
-.link-button:hover {
-    -fx-underline: true;
+.dialog-pane > .content.label {
+    -fx-text-fill: #DDE2E4;
+    -fx-padding: 16;
 }
 
-/* Filas de inventario agotado */
-.fila-agotado {
-    -fx-background-color: #FBE3E7;
+.dialog-pane > .button-bar > .container {
+    -fx-padding: 10 14 12 14;
 }
 
-.fila-agotado .table-cell {
-    -fx-text-fill: -taller-accent-dark;
+.alert.confirmation.dialog-pane .graphic-container,
+.alert.warning.dialog-pane .graphic-container,
+.alert.error.dialog-pane .graphic-container {
+    -fx-padding: 0 8 0 0;
 }
 
-/* Estados de botones: hover, pressed, focus y disabled */
-.primary-button:pressed {
-    -fx-background-color: #A92F41;
-}
+/* =====================================================================
+   PESTAÑAS, ACORDEÓN, LISTAS, DIVISORES
+   ===================================================================== */
 
-.secondary-button:pressed {
-    -fx-background-color: #1E282C;
-}
-
-.danger-button:pressed {
-    -fx-background-color: #6F1B2C;
-}
-
-.primary-button:focused,
-.secondary-button:focused,
-.danger-button:focused {
-    -fx-effect: dropshadow(gaussian, rgba(232,74,95,0.45), 6, 0.3, 0, 0);
-}
-
-.button:disabled {
-    -fx-opacity: 0.45;
-}
-
-.tool-button:pressed {
-    -fx-background-color: -taller-accent-soft;
-}
-
-/* Combos, fechas y áreas de texto con el mismo foco que los campos */
-.combo-box-base:focused,
-.date-picker:focused,
-.text-area:focused .content {
-    -fx-border-color: -taller-accent;
-}
-
-.text-area {
-    -fx-background-radius: 6;
-    -fx-border-radius: 6;
-    -fx-border-color: #CBD3D8;
-}
-
-.text-area .content {
-    -fx-background-color: white;
-}
-
-/* Pestañas */
-.tab-pane .tab-header-background {
+.tab-pane > .tab-header-area > .tab-header-background {
     -fx-background-color: transparent;
 }
 
@@ -637,28 +1129,38 @@
 }
 
 .tab-pane .tab .tab-label {
-    -fx-text-fill: -taller-muted;
+    -fx-text-fill: #8E979C;
     -fx-font-weight: bold;
 }
 
+.tab-pane .tab:hover .tab-label {
+    -fx-text-fill: white;
+}
+
 .tab-pane .tab:selected {
-    -fx-background-color: white;
-    -fx-border-color: transparent transparent -taller-accent transparent;
+    -fx-background-color: rgba(255, 255, 255, 0.04);
+    -fx-border-color: transparent transparent -jz-rojo transparent;
     -fx-border-width: 0 0 3 0;
 }
 
 .tab-pane .tab:selected .tab-label {
-    -fx-text-fill: -taller-dark;
+    -fx-text-fill: white;
 }
 
 .tab-pane .tab:selected .focus-indicator {
     -fx-border-color: transparent;
 }
 
-/* Lista de reportes */
+.tab-pane > .tab-content-area {
+    -fx-background-color: transparent;
+}
+
 .titled-pane > .title {
-    -fx-background-color: -taller-dark;
-    -fx-background-radius: 6;
+    -fx-background-color: linear-gradient(to bottom, #2E3438 0%, #23282B 100%);
+    -fx-background-radius: 7;
+    -fx-border-color: #3A4146 #3A4146 #3A4146 -jz-rojo;
+    -fx-border-width: 1 1 1 3;
+    -fx-border-radius: 7;
     -fx-padding: 8 12 8 12;
 }
 
@@ -668,160 +1170,361 @@
 }
 
 .titled-pane > .title > .arrow-button > .arrow {
-    -fx-background-color: -taller-accent;
+    -fx-background-color: -jz-rojo-brillo;
+}
+
+.titled-pane > .content {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
 }
 
 .list-view {
-    -fx-background-radius: 6;
-    -fx-border-color: -taller-border;
-    -fx-border-radius: 6;
+    -fx-background-color: #1C1F22;
+    -fx-background-radius: 7;
+    -fx-border-color: #2E3438;
+    -fx-border-radius: 7;
+}
+
+.list-view .list-cell {
+    -fx-background-color: #1C1F22;
+    -fx-text-fill: #DDE2E4;
+}
+
+.list-view .list-cell:odd {
+    -fx-background-color: #202427;
+}
+
+.list-view .list-cell:filled:hover {
+    -fx-background-color: rgba(215, 25, 32, 0.18);
+    -fx-text-fill: white;
 }
 
 .list-view .list-cell:filled:selected,
 .list-view .list-cell:filled:selected:focused {
-    -fx-background-color: -taller-accent;
+    -fx-background-color: -jz-rojo;
     -fx-text-fill: white;
 }
 
-.list-view .list-cell:filled:hover {
-    -fx-background-color: -taller-accent-soft;
-    -fx-text-fill: -taller-dark;
-}
-
-/* Combos con la misma altura que los campos de texto */
-.combo-box {
-    -fx-padding: 2 4 2 2;
-}
-
-/* Combo editable: un solo recuadro (campo + flecha) */
-.combo-box-base:editable {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-    -fx-padding: 0;
-}
-
-.combo-box-base:editable > .text-field {
-    -fx-background-radius: 6 0 0 6;
-    -fx-border-radius: 6 0 0 6;
-}
-
-.combo-box-base:editable > .arrow-button {
-    -fx-background-color: -taller-bg;
-    -fx-background-radius: 0 6 6 0;
-    -fx-border-color: #CBD3D8;
-    -fx-border-width: 1 1 1 0;
-    -fx-border-radius: 0 6 6 0;
-}
-
-/* Selector de fecha: un solo recuadro (campo + botón de calendario) */
-.date-picker {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-    -fx-padding: 0;
-}
-
-.date-picker > .text-field {
-    -fx-background-radius: 6 0 0 6;
-    -fx-border-radius: 6 0 0 6;
-}
-
-.date-picker > .arrow-button {
-    -fx-background-color: -taller-bg;
-    -fx-background-radius: 0 6 6 0;
-    -fx-border-color: #CBD3D8;
-    -fx-border-width: 1 1 1 0;
-    -fx-border-radius: 0 6 6 0;
-    -fx-cursor: hand;
-}
-
-.date-picker > .arrow-button:hover {
-    -fx-background-color: -taller-accent-soft;
-}
-
-/* El valor mostrado dentro de un combo no lleva fondo de selección */
-.combo-box > .list-cell {
-    -fx-background-color: transparent;
-    -fx-text-fill: -taller-dark;
-}
-
-/* Gráficos con la paleta del sistema */
-.chart {
-    -fx-padding: 6;
-}
-
-.chart-plot-background {
-    -fx-background-color: white;
-}
-
-.chart-vertical-grid-lines,
-.chart-horizontal-grid-lines {
-    -fx-stroke: #EEF1F3;
-}
-
-.chart-bar {
-    -fx-bar-fill: -taller-accent;
-    -fx-background-radius: 4 4 0 0;
-}
-
-.chart-bar:hover {
-    -fx-bar-fill: -taller-accent-dark;
-}
-
-.chart-series-line {
-    -fx-stroke: -taller-accent;
-    -fx-stroke-width: 3px;
-}
-
-.chart-line-symbol {
-    -fx-background-color: -taller-accent, white;
-}
-
-.axis {
-    -fx-tick-label-fill: -taller-muted;
-    -fx-tick-label-font-size: 10.5px;
-}
-
-.default-color0.chart-pie { -fx-pie-color: #E84A5F; }
-.default-color1.chart-pie { -fx-pie-color: #2A363B; }
-.default-color2.chart-pie { -fx-pie-color: #FF847C; }
-.default-color3.chart-pie { -fx-pie-color: #99B898; }
-.default-color4.chart-pie { -fx-pie-color: #FECEA8; }
-.default-color5.chart-pie { -fx-pie-color: #5C7A86; }
-.default-color6.chart-pie { -fx-pie-color: #B3304A; }
-.default-color7.chart-pie { -fx-pie-color: #A8B5BA; }
-
-.chart-pie-label {
-    -fx-fill: -taller-dark;
-    -fx-font-size: 11px;
-}
-
-/* Fotografía del producto */
-.foto-producto {
-    -fx-background-color: white;
-    -fx-background-radius: 8;
-    -fx-border-color: -taller-border;
-    -fx-border-radius: 8;
-}
-
-.foto-producto.foto-vacia {
-    -fx-background-color: -taller-bg;
-}
-
-.foto-producto.foto-vacia .icono {
-    -fx-fill: #B8C3C8;
-}
-
-.table-cell .foto-producto {
-    -fx-border-color: transparent;
-}
-
-/* Divisor de los paneles divididos */
 .split-pane {
     -fx-background-color: transparent;
     -fx-padding: 0;
 }
 
 .split-pane > .split-pane-divider {
-    -fx-background-color: -taller-border;
+    -fx-background-color: #262B2F;
     -fx-padding: 0 1 0 1;
+}
+
+.progress-bar > .bar {
+    -fx-background-color: linear-gradient(to right, #8F1018, #F0343B);
+    -fx-background-radius: 4;
+}
+
+.progress-bar > .track {
+    -fx-background-color: #121416;
+    -fx-background-radius: 4;
+}
+
+.progress-indicator > .determinate-indicator > .indicator {
+    -fx-background-color: #121416, -jz-rojo;
+}
+
+.progress-indicator .segment {
+    -fx-background-color: -jz-rojo-brillo;
+}
+
+/* =====================================================================
+   GRÁFICOS — fondo de instrumento, barras y líneas en rojo
+   ===================================================================== */
+
+.chart {
+    -fx-padding: 6;
+}
+
+.chart-plot-background {
+    -fx-background-color: linear-gradient(to bottom, #1C1F22 0%, #181B1E 100%);
+}
+
+.chart-vertical-grid-lines,
+.chart-horizontal-grid-lines {
+    -fx-stroke: #2A2F33;
+}
+
+.chart-alternative-row-fill,
+.chart-alternative-column-fill {
+    -fx-fill: transparent;
+}
+
+.chart-vertical-zero-line,
+.chart-horizontal-zero-line {
+    -fx-stroke: #3A4146;
+}
+
+.axis {
+    -fx-tick-label-fill: #8E979C;
+    -fx-tick-label-font-size: 10.5px;
+}
+
+.axis-label,
+.chart-title,
+.chart-legend-item {
+    -fx-text-fill: #C9D0D4;
+}
+
+.chart-legend {
+    -fx-background-color: transparent;
+}
+
+.chart-bar {
+    -fx-bar-fill: #D71920;
+    -fx-background-color: linear-gradient(to top, #8F1018 0%, #D71920 60%, #F0343B 100%);
+    -fx-background-radius: 4 4 0 0;
+}
+
+.chart-bar:hover {
+    -fx-background-color: #F0343B;
+}
+
+.default-color1.chart-bar {
+    -fx-bar-fill: #9BA3A8;
+    -fx-background-color: linear-gradient(to top, #454C50 0%, #9BA3A8 100%);
+}
+
+.chart-series-line {
+    -fx-stroke: -jz-rojo-brillo;
+    -fx-stroke-width: 3px;
+    -fx-effect: dropshadow(gaussian, rgba(240, 52, 59, 0.55), 8, 0.2, 0, 0);
+}
+
+.default-color1.chart-series-line {
+    -fx-stroke: -jz-aluminio;
+    -fx-effect: null;
+}
+
+.chart-line-symbol {
+    -fx-background-color: -jz-rojo-brillo, #1C1F22;
+}
+
+.default-color1.chart-line-symbol {
+    -fx-background-color: -jz-aluminio, #1C1F22;
+}
+
+.default-color0.chart-legend-item-symbol { -fx-background-color: -jz-rojo; }
+.default-color1.chart-legend-item-symbol { -fx-background-color: -jz-aluminio; }
+
+.default-color0.chart-pie { -fx-pie-color: #D71920; }
+.default-color1.chart-pie { -fx-pie-color: #9BA3A8; }
+.default-color2.chart-pie { -fx-pie-color: #8F1018; }
+.default-color3.chart-pie { -fx-pie-color: #454C50; }
+.default-color4.chart-pie { -fx-pie-color: #F0343B; }
+.default-color5.chart-pie { -fx-pie-color: #737B80; }
+.default-color6.chart-pie { -fx-pie-color: #36A269; }
+.default-color7.chart-pie { -fx-pie-color: #C9D0D4; }
+
+.chart-pie {
+    -fx-border-color: #1C1F22;
+    -fx-border-width: 1;
+}
+
+.chart-pie-label {
+    -fx-fill: #C9D0D4;
+    -fx-font-size: 11px;
+}
+
+.chart-pie-label-line {
+    -fx-stroke: #59626A;
+}
+
+/* =====================================================================
+   PUNTO DE VENTA — tarjetas de producto y carrito tipo panel digital
+   ===================================================================== */
+
+.producto-card {
+    -fx-background-color:
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0) 4%),
+        linear-gradient(to bottom, #262B2F 0%, #1C2023 100%);
+    -fx-background-radius: 10;
+    -fx-border-color: #313840;
+    -fx-border-radius: 10;
+    -fx-padding: 10;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.45), 8, 0, 0, 2);
+    transition: -fx-translate-y 140ms ease;
+}
+
+.producto-card:hover {
+    -fx-border-color: #5A6268;
+    -fx-translate-y: -2;
+    -fx-effect: dropshadow(gaussian, rgba(215, 25, 32, 0.35), 14, 0.05, 0, 4);
+}
+
+.producto-card.seleccionada {
+    -fx-border-color: -jz-rojo;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(215, 25, 32, 0.55), 16, 0.1, 0, 0);
+}
+
+.producto-card.agotada {
+    -fx-opacity: 0.55;
+}
+
+.producto-nombre {
+    -fx-text-fill: -jz-blanco;
+    -fx-font-weight: bold;
+    -fx-font-size: 12.5px;
+}
+
+.producto-codigo {
+    -fx-text-fill: #8E979C;
+    -fx-font-size: 11px;
+}
+
+.producto-precio {
+    -fx-text-fill: white;
+    -fx-font-family: "Bahnschrift", "Segoe UI", sans-serif;
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+}
+
+/* Panel del carrito: pantalla de instrumentos */
+.cart-panel {
+    -fx-background-color:
+        radial-gradient(center 50% 0%, radius 90%, rgba(215, 25, 32, 0.16), transparent),
+        linear-gradient(to bottom, #1A1D20 0%, #0F1113 100%);
+    -fx-background-radius: 14;
+    -fx-border-color: #3A4146 #2A3035 #1E2225 #2A3035;
+    -fx-border-radius: 14;
+    -fx-padding: 16 18 16 18;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.65), 18, 0, 0, 4);
+}
+
+.cart-total-titulo {
+    -fx-text-fill: #8E979C;
+    -fx-font-family: "Bahnschrift", "Segoe UI", sans-serif;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.cart-panel .total-label {
+    -fx-text-fill: white;
+    -fx-font-size: 34px;
+    -fx-effect: dropshadow(gaussian, rgba(240, 52, 59, 0.55), 14, 0.15, 0, 0);
+}
+
+.cart-panel .metric-label {
+    -fx-text-fill: #AEB6BA;
+}
+
+.cart-panel .panel-card {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-effect: null;
+    -fx-padding: 4 0 4 0;
+}
+
+/* =====================================================================
+   FOTOGRAFÍA DEL PRODUCTO
+   ===================================================================== */
+
+.foto-producto {
+    -fx-background-color: #121416;
+    -fx-background-radius: 8;
+    -fx-border-color: #2E3438;
+    -fx-border-radius: 8;
+}
+
+.foto-producto.foto-vacia .icono {
+    -fx-fill: #3A4146;
+}
+
+.table-cell .foto-producto {
+    -fx-border-color: transparent;
+}
+
+/* =====================================================================
+   NOTIFICACIONES (toast)
+   ===================================================================== */
+
+.notificacion {
+    -fx-background-color: linear-gradient(to bottom, #262B2F 0%, #1C2023 100%);
+    -fx-background-radius: 10;
+    -fx-border-color: #3A4146 #3A4146 #3A4146 -jz-verde;
+    -fx-border-width: 1 1 1 4;
+    -fx-border-radius: 10;
+    -fx-padding: 12 16 12 14;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 18, 0, 0, 6);
+}
+
+.notificacion.error {
+    -fx-border-color: #3A4146 #3A4146 #3A4146 -jz-rojo;
+}
+
+.notificacion-titulo {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.notificacion-texto {
+    -fx-text-fill: #C9D0D4;
+    -fx-font-size: 12px;
+}
+
+.notificacion .icono {
+    -fx-fill: -jz-verde;
+}
+
+.notificacion.error .icono {
+    -fx-fill: -jz-rojo-brillo;
+}
+
+/* =====================================================================
+   PANTALLA DE ACCESO
+   ===================================================================== */
+
+.login-pane {
+    -fx-background-color: #0E1012;
+    -fx-background-image: url("img/civic.jpg");
+    -fx-background-size: cover;
+    -fx-background-position: left center;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.login-pane > .content {
+    -fx-padding: 0;
+}
+
+.login-pane > .button-bar {
+    -fx-background-color: rgba(14, 16, 18, 0.92);
+}
+
+.login-velo {
+    -fx-background-color: linear-gradient(to right, rgba(10, 12, 14, 0.15) 0%, rgba(10, 12, 14, 0.55) 45%, rgba(14, 16, 18, 0.96) 62%);
+}
+
+.login-form {
+    -fx-padding: 36 40 20 40;
+}
+
+.login-titulo {
+    -fx-text-fill: white;
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+}
+
+.login-subtitulo {
+    -fx-text-fill: #9BA3A8;
+    -fx-font-size: 12px;
+}
+
+.login-form .text-field,
+.login-form .password-field {
+    -fx-padding: 10 12 10 12;
+    -fx-font-size: 14px;
+}
+
+.login-pane > .button-bar .button:default {
+    -fx-padding: 10 34 10 34;
+    -fx-font-size: 14px;
 }

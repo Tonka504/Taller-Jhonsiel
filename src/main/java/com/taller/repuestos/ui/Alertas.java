@@ -28,7 +28,20 @@ public final class Alertas {
         mostrar(Alert.AlertType.WARNING, titulo, mensaje);
     }
 
+    /**
+     * Confirmación de una operación exitosa: se muestra como notificación discreta en la ventana principal
+     * (sin interrumpir). Si la ventana principal aún no está lista, se usa un mensaje normal.
+     */
     public static void info(String titulo, String mensaje) {
+        if (Notificacion.disponible()) {
+            Notificacion.exito(titulo, mensaje);
+        } else {
+            mostrar(Alert.AlertType.INFORMATION, titulo, mensaje);
+        }
+    }
+
+    /** Información que el usuario debe leer con calma (resúmenes, cierres): siempre en una ventana. */
+    public static void informe(String titulo, String mensaje) {
         mostrar(Alert.AlertType.INFORMATION, titulo, mensaje);
     }
 
@@ -73,6 +86,12 @@ public final class Alertas {
         }
         if (propietario != null) {
             dialogo.initOwner(propietario);
+        }
+        // Icono de JOHNZIEL en la ventana del diálogo
+        if (dialogo.getDialogPane().getScene() != null
+                && dialogo.getDialogPane().getScene().getWindow() instanceof javafx.stage.Stage st
+                && Marca.icono() != null && st.getIcons().isEmpty()) {
+            st.getIcons().add(Marca.icono());
         }
     }
 

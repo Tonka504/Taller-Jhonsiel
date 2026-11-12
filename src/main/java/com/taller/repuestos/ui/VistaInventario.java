@@ -130,6 +130,12 @@ public class VistaInventario {
         colMin.setCellValueFactory(c -> new SimpleIntegerProperty(c.getValue().getStockMinimo()).asObject());
         colMin.setPrefWidth(55);
         tabla.getColumns().addAll(colStock, colMin);
+        // Estado del inventario y vehículos compatibles
+        tabla.getColumns().add(Componentes.colEstado("Estado", 100,
+                r -> r.getStock() <= 0 ? "Agotado" : r.isStockBajo() ? "Stock bajo" : "Disponible",
+                r -> r.getStock() <= 0 ? "alerta" : r.isStockBajo() ? "aviso" : "ok"));
+        tabla.getColumns().add(columnaTexto("Compatibilidad", 200,
+                r -> com.taller.repuestos.service.BuscadorRepuestos.resumenCompatibilidad(compatPorProducto.get(r.getId()))));
         tabla.setItems(filtrados);
         tabla.setPlaceholder(new Label("No hay productos que coincidan"));
         VBox.setVgrow(tabla, Priority.ALWAYS);

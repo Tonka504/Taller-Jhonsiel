@@ -162,9 +162,11 @@ public class App extends Application {
         mainLayout.setLeft(crearSidebar());
         mainLayout.setCenter(panelDerecho);
 
-        Scene scene = new Scene(mainLayout, 1280, 760);
+        // La capa de notificaciones (toast) va encima de todo el contenido
+        Scene scene = new Scene(com.taller.repuestos.ui.Notificacion.instalar(mainLayout), 1280, 760);
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
-        primaryStage.setTitle(config.nombreNegocio() + " - Sistema de Gestión");
+        primaryStage.setTitle(tituloVentana());
+        if (com.taller.repuestos.ui.Marca.icono() != null) primaryStage.getIcons().add(com.taller.repuestos.ui.Marca.icono());
         primaryStage.setMinWidth(1000);
         primaryStage.setMinHeight(640);
         primaryStage.setScene(scene);
@@ -193,14 +195,17 @@ public class App extends Application {
         sidebar.setMinWidth(250);
         sidebar.setMaxWidth(250);
 
-        Label titulo = new Label(config.nombreNegocio().toUpperCase());
-        titulo.getStyleClass().add("sidebar-title");
-        titulo.setMaxWidth(165);
-        lblSidebarTitulo = titulo;
-        Label subtitulo = new Label("Sistema de Gestión");
-        subtitulo.getStyleClass().add("sidebar-subtitle");
+        // Marca: logotipo del negocio + logotipo tipográfico JOHNZIEL + nombre configurado del negocio
+        Label negocio = new Label(config.nombreNegocio());
+        negocio.getStyleClass().add("sidebar-subtitle");
+        negocio.setMaxWidth(150);
+        lblSidebarTitulo = negocio;
+        Label lema = new Label("Performance & Parts");
+        lema.getStyleClass().add("sidebar-subtitle");
 
-        HBox cabecera = new HBox(12, Iconos.crear(Iconos.LLAVE, 34), new VBox(2, titulo, subtitulo));
+        VBox textosMarca = new VBox(3, com.taller.repuestos.ui.Marca.logotipo("marca-texto", 118), lema, negocio);
+        textosMarca.setAlignment(Pos.CENTER_LEFT);
+        HBox cabecera = new HBox(12, com.taller.repuestos.ui.Marca.logo(62), textosMarca);
         cabecera.setAlignment(Pos.CENTER_LEFT);
         cabecera.getStyleClass().add("sidebar-header");
 
@@ -323,9 +328,13 @@ public class App extends Application {
     }
 
     /** Se ejecuta al guardar la configuración: refresca lo que se ve en pantalla. */
+    private String tituloVentana() {
+        return com.taller.repuestos.ui.Marca.NOMBRE + "  ·  " + config.nombreNegocio();
+    }
+
     private void alCambiarConfiguracion() {
-        if (lblSidebarTitulo != null) lblSidebarTitulo.setText(config.nombreNegocio().toUpperCase());
-        if (ventanaPrincipal != null) ventanaPrincipal.setTitle(config.nombreNegocio() + " - Sistema de Gestión");
+        if (lblSidebarTitulo != null) lblSidebarTitulo.setText(config.nombreNegocio());
+        if (ventanaPrincipal != null) ventanaPrincipal.setTitle(tituloVentana());
         if (vistaPOS != null) vistaPOS.actualizarTotales();
     }
 
@@ -410,36 +419,68 @@ public class App extends Application {
 
     private void mostrarVista(Node vista) {
         contenedorVistas.getChildren().setAll(vista);
-        FadeTransition fade = new FadeTransition(Duration.millis(220), vista);
+        FadeTransition fade = new FadeTransition(Duration.millis(240), vista);
         fade.setFromValue(0);
         fade.setToValue(1);
-        fade.play();
+        javafx.animation.TranslateTransition desliza = new javafx.animation.TranslateTransition(Duration.millis(240), vista);
+        desliza.setFromY(10);
+        desliza.setToY(0);
+        desliza.setInterpolator(javafx.animation.Interpolator.EASE_OUT);
+        new javafx.animation.ParallelTransition(fade, desliza).play();
     }
 
     private Usuario mostrarPantallaLogin() {
         Dialog<Usuario> dialog = new Dialog<>();
-        dialog.setTitle("Iniciar Sesión");
-        dialog.setHeaderText("Acceso a " + config.nombreNegocio());
+        dialog.setTitle(com.taller.repuestos.ui.Marca.NOMBRE + " · Acceso");
+        dialog.setHeaderText(null);
+        dialog.setGraphic(null);
 
         ButtonType loginButtonType = new ButtonType("Ingresar", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
 
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
-
         TextField username = new TextField();
-        username.setPromptText("Usuario");
+        username.setPromptText("Tu usuario");
         PasswordField password = new PasswordField();
-        password.setPromptText("Contraseña");
+        password.setPromptText("Tu contraseña");
 
-        grid.add(new Label("Usuario:"), 0, 0);
-        grid.add(username, 1, 0);
-        grid.add(new Label("Contraseña:"), 0, 1);
-        grid.add(password, 1, 1);
+        // Diseño: fotografía deportiva de fondo (CSS .login-pane), velo oscuro y formulario a la derecha
+        Label lblUsuario = new Label("USUARIO");
+        lblUsuario.getStyleClass().add("form-label");
+        Label lblClave = new Label("CONTRASEÑA");
+        lblClave.getStyleClass().add("form-label");
+        Label lema = new Label(com.taller.repuestos.ui.Marca.LEMA);
+        lema.getStyleClass().add("login-subtitulo");
+        lema.setWrapText(true);
+        Label negocio = new Label(config.nombreNegocio());
+        negocio.getStyleClass().add("login-subtitulo");
+        Label pie = new Label("Ingresa con tus credenciales. Tras 5 intentos fallidos el sistema se cierra.");
+        pie.getStyleClass().add("hint-label");
+        pie.setWrapText(true);
 
-        dialog.getDialogPane().setContent(grid);
+        Region separadorLogin = new Region();
+        separadorLogin.setMinHeight(12);
+        VBox form = new VBox(10,
+                com.taller.repuestos.ui.Marca.logo(132),
+                com.taller.repuestos.ui.Marca.logotipo("login-titulo", 160), lema, negocio,
+                separadorLogin,
+                lblUsuario, username, lblClave, password, pie);
+        form.getStyleClass().add("login-form");
+        form.setAlignment(Pos.CENTER_LEFT);
+        form.setPrefWidth(400);
+        form.setMaxWidth(400);
+        form.setFillWidth(true);
+
+        Region espacio = new Region();
+        HBox.setHgrow(espacio, Priority.ALWAYS);
+        HBox fila = new HBox(espacio, form);
+        Region velo = new Region();
+        velo.getStyleClass().add("login-velo");
+        StackPane contenidoLogin = new StackPane(velo, fila);
+        contenidoLogin.setPrefSize(980, 560);
+
+        dialog.getDialogPane().getStyleClass().add("login-pane");
+        dialog.getDialogPane().setContent(contenidoLogin);
+        dialog.setResizable(true);
         Alertas.estilizar(dialog);
 
         final Usuario[] autenticado = new Usuario[1];

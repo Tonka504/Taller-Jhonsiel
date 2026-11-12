@@ -149,6 +149,25 @@ public class DashboardService {
         return lista;
     }
 
+    /**
+     * Ingresos (ventas facturadas) contra gastos (gastos de caja y pagos a proveedores) de los últimos N meses.
+     * @return filas [mes, ingresos, gastos]
+     */
+    public List<Object[]> ingresosVsGastos(int meses) {
+        LocalDate primero = LocalDate.now().withDayOfMonth(1);
+        DateTimeFormatter f = DateTimeFormatter.ofPattern("MMM yy", new Locale("es"));
+        List<Object[]> lista = new ArrayList<>();
+        for (int i = meses - 1; i >= 0; i--) {
+            String ini = primero.minusMonths(i).toString();
+            String fin = primero.minusMonths(i - 1L).toString();
+            double ingresos = dao.numero("SELECT COALESCE(SUM(total), 0) FROM ventas WHERE estado = 'EMITIDA' AND fecha >= ? AND fecha < ?", ini, fin);
+            double gastos = dao.numero("SELECT COALESCE(SUM(monto), 0) FROM movimientos_caja WHERE tipo = 'GASTO' AND fecha >= ? AND fecha < ?", ini, fin)
+                    + dao.numero("SELECT COALESCE(SUM(monto), 0) FROM pagos_proveedor WHERE fecha >= ? AND fecha < ?", ini, fin);
+            lista.add(new Object[]{primero.minusMonths(i).format(f), ingresos, gastos});
+        }
+        return lista;
+    }
+
     /** Productos más vendidos (unidades) desde la fecha indicada. */
     public List<Punto> topProductos(LocalDate desde, int limite) {
         List<Punto> lista = new ArrayList<>();

@@ -8,7 +8,10 @@ import com.taller.repuestos.service.PermisoService;
 import com.taller.repuestos.util.Formato;
 import com.taller.repuestos.util.Iconos;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -29,12 +32,14 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
@@ -62,8 +67,7 @@ public class VistaDashboard {
         DashboardService.Resumen r = servicio.resumen();
         String fecha = LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE d 'de' MMMM 'de' yyyy", new Locale("es")));
 
-        VBox encabezado = new VBox(2, Componentes.titulo("Dashboard"),
-                Componentes.ayuda("Resumen del negocio · " + Character.toUpperCase(fecha.charAt(0)) + fecha.substring(1)));
+        Node hero = hero(r, fecha);
 
         // ---------------- Indicadores ----------------
         GridPane kpis = new GridPane();
@@ -76,26 +80,41 @@ public class VistaDashboard {
             kpis.getColumnConstraints().add(cc);
         }
         boolean finanzas = permisos.tiene(Permiso.REPORTES_FINANZAS);
-        kpis.add(tarjeta(Iconos.FACTURA, Formato.moneda(r.totalHoy), "Ventas de hoy", r.ventasHoy + " factura(s)", false), 0, 0);
-        kpis.add(tarjeta(Iconos.GRAFICA, Formato.moneda(r.totalMes), "Ventas del mes", r.ventasMes + " factura(s)", false), 1, 0);
-        kpis.add(finanzas
-                ? tarjeta(Iconos.BILLETERA, Formato.moneda(r.gananciaMes), "Ganancia estimada del mes", "ventas sin impuesto − costo", false)
-                : tarjeta(Iconos.CLIENTES, String.valueOf(r.clientesActivos), "Clientes registrados", "activos", false), 2, 0);
-        kpis.add(tarjeta(Iconos.TUERCA, String.valueOf(r.unidadesMes), "Productos vendidos", "unidades este mes", false), 3, 0);
-        kpis.add(tarjeta(Iconos.CAJA, String.valueOf(r.productosDisponibles), "Productos disponibles",
-                "de " + r.productosTotal + " registrados", false), 0, 1);
-        kpis.add(tarjeta(Iconos.ALERTA, String.valueOf(r.stockBajo), "Con stock bajo", "en o bajo el mínimo", r.stockBajo > 0), 1, 1);
-        kpis.add(tarjeta(Iconos.ALERTA, String.valueOf(r.agotados), "Productos agotados", "sin existencia", r.agotados > 0), 2, 1);
-        kpis.add(finanzas
-                ? tarjeta(Iconos.CLIENTES, String.valueOf(r.clientesActivos), "Clientes registrados",
-                        "valor inventario " + Formato.moneda(r.valorInventario), false)
-                : tarjeta(Iconos.LLAVE, String.valueOf(r.ordenesAbiertas), "Vehículos en el taller", r.ordenesListas + " listos para entregar", false), 3, 1);
+        List<HBox> tarjetas = new ArrayList<>();
+        tarjetas.add(tarjeta(Iconos.FACTURA, Formato.moneda(r.totalHoy), "Ventas de hoy", r.ventasHoy + " factura(s)", false));
+        tarjetas.add(tarjeta(Iconos.GRAFICA, Formato.moneda(r.totalMes), "Ventas del mes", r.ventasMes + " factura(s)", false));
+        tarjetas.add(finanzas
+                ? tarjeta(Iconos.BILLETERA, Formato.moneda(r.gananciaMes), "Ganancias del mes", "estimado: ventas sin impuesto − costo", false)
+                : tarjeta(Iconos.BILLETERA, Formato.moneda(r.saldoCreditos), "Créditos por cobrar", r.creditosPendientes + " factura(s)", false));
+        tarjetas.add(tarjeta(Iconos.TUERCA, String.valueOf(r.unidadesMes), "Productos vendidos", "unidades este mes", false));
+        tarjetas.add(tarjeta(Iconos.CAJA, String.valueOf(r.productosDisponibles), "Productos disponibles",
+                "de " + r.productosTotal + " registrados", false));
+        tarjetas.add(tarjeta(Iconos.ALERTA, String.valueOf(r.stockBajo), "Poco inventario", "en o bajo el mínimo", r.stockBajo > 0));
+        tarjetas.add(tarjeta(Iconos.ALERTA, String.valueOf(r.agotados), "Productos agotados", "sin existencia", r.agotados > 0));
+        tarjetas.add(tarjeta(Iconos.CLIENTES, String.valueOf(r.clientesActivos), "Total de clientes", "activos", false));
+        tarjetas.add(tarjeta(Iconos.CARRITO, String.valueOf(r.comprasPendientes), "Pedidos pendientes",
+                "compras por recibir de proveedores", r.comprasPendientes > 0));
+        tarjetas.add(tarjeta(Iconos.DESTORNILLADOR, String.valueOf(r.ordenesAbiertas), "Vehículos en el taller",
+                r.ordenesListas + " listo(s) para entregar", false));
+        tarjetas.add(finanzas
+                ? tarjeta(Iconos.BILLETERA, Formato.moneda(r.saldoCreditos), "Créditos por cobrar",
+                        r.creditosPendientes + " factura(s)" + (r.creditosVencidos > 0 ? " · " + r.creditosVencidos + " vencida(s)" : ""),
+                        r.creditosVencidos > 0)
+                : tarjeta(Iconos.CLIENTES, String.valueOf(r.creditosVencidos), "Créditos vencidos", "facturas fuera de plazo", r.creditosVencidos > 0));
+        tarjetas.add(finanzas
+                ? tarjeta(Iconos.CAJA, Formato.moneda(r.valorInventario), "Valor del inventario", "a costo", false)
+                : tarjeta(Iconos.CAJA, String.valueOf(r.productosTotal), "Productos registrados", "en el catálogo", false));
+        for (int i = 0; i < tarjetas.size(); i++) {
+            kpis.add(tarjetas.get(i), i % 4, i / 4);
+            aparecer(tarjetas.get(i), i * 45);
+        }
 
         // ---------------- Gráficos ----------------
         TabPane tabsVentas = new TabPane(
                 new Tab("Últimos 14 días", barras(servicio.ventasPorDia(14), "Ventas")),
                 new Tab("8 semanas", barras(servicio.ventasPorSemana(8), "Ventas")),
                 new Tab("12 meses", linea(servicio.ventasPorMes(12))));
+        if (finanzas) tabsVentas.getTabs().add(new Tab("Ingresos vs. gastos", ingresosVsGastos(servicio.ingresosVsGastos(6))));
         tabsVentas.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         tabsVentas.setPrefHeight(300);
         VBox panelVentas = Componentes.panel(Componentes.seccion("Ventas"), tabsVentas);
@@ -151,9 +170,104 @@ public class VistaDashboard {
         accion(acciones, "Caja", Iconos.BILLETERA, "caja");
         accion(acciones, "Reportes", Iconos.GRAFICA, "reportes");
 
-        VBox contenido = new VBox(18, encabezado, kpis, graficos, tablas);
+        aparecer(graficos, 320);
+        aparecer(tablas, 420);
+        VBox contenido = new VBox(18, hero, kpis, graficos, tablas);
         if (!acciones.getChildren().isEmpty()) contenido.getChildren().addAll(Componentes.seccion("Accesos rápidos"), acciones);
         return Componentes.scroll(contenido);
+    }
+
+    // ------------------------------------------------------------------
+    // BIENVENIDA (fotografía panorámica + datos clave)
+    // ------------------------------------------------------------------
+
+    private Node hero(DashboardService.Resumen r, String fecha) {
+        Region fondo = new Region();
+        fondo.getStyleClass().add("hero");
+        java.net.URL foto = getClass().getResource("/img/civic.jpg");
+        if (foto != null) {
+            fondo.setStyle("-fx-background-image: url('" + foto.toExternalForm() + "'); "
+                    + "-fx-background-size: 135% auto; -fx-background-position: right 52%;");
+        }
+        Region velo = new Region();
+        velo.setStyle("-fx-background-color: linear-gradient(to right, rgba(12,14,16,0.97) 0%, rgba(12,14,16,0.82) 38%, "
+                + "rgba(12,14,16,0.15) 75%, rgba(12,14,16,0.05) 100%); -fx-background-radius: 14;");
+
+        com.taller.repuestos.model.Usuario u = com.taller.repuestos.util.Sesion.getUsuario();
+        String nombre = u == null ? "" : u.getNombreCompleto().split(" ")[0];
+        Label etiqueta = new Label("JOHNZIEL · CENTRO DE OPERACIONES");
+        etiqueta.getStyleClass().add("hero-etiqueta");
+        Label titulo = new Label("Bienvenido" + (nombre.isEmpty() ? "" : ", " + nombre));
+        titulo.getStyleClass().add("hero-titulo");
+        Label sub = new Label(Character.toUpperCase(fecha.charAt(0)) + fecha.substring(1) + "  ·  " + Marca.LEMA);
+        sub.getStyleClass().add("hero-subtitulo");
+
+        HBox datos = new HBox(12,
+                dato(Formato.moneda(r.totalHoy), "vendido hoy"),
+                dato(String.valueOf(r.ordenesAbiertas), "vehículos en taller"),
+                dato(String.valueOf(r.stockBajo + r.agotados), "repuestos por reponer"));
+        VBox textos = new VBox(8, etiqueta, titulo, sub, datos);
+        VBox.setMargin(datos, new javafx.geometry.Insets(10, 0, 0, 0));
+        textos.setPadding(new javafx.geometry.Insets(24, 28, 24, 28));
+        textos.setAlignment(Pos.CENTER_LEFT);
+        textos.setMaxWidth(640);
+        StackPane.setAlignment(textos, Pos.CENTER_LEFT);
+
+        StackPane hero = new StackPane(fondo, velo, textos);
+        hero.setMinHeight(260);
+        hero.setPrefHeight(260);
+        javafx.scene.shape.Rectangle recorte = new javafx.scene.shape.Rectangle();
+        recorte.setArcWidth(28);
+        recorte.setArcHeight(28);
+        recorte.widthProperty().bind(hero.widthProperty());
+        recorte.heightProperty().bind(hero.heightProperty());
+        hero.setClip(recorte);
+        aparecer(hero, 0);
+        return hero;
+    }
+
+    private static VBox dato(String valor, String texto) {
+        Label v = new Label(valor);
+        v.getStyleClass().add("hero-dato-valor");
+        Label t = new Label(texto);
+        t.getStyleClass().add("hero-dato-texto");
+        VBox box = new VBox(0, v, t);
+        box.getStyleClass().add("hero-dato");
+        return box;
+    }
+
+    /** Aparición suave: el nodo sube unos píxeles mientras se hace visible. */
+    private static void aparecer(Node n, int retrasoMs) {
+        n.setOpacity(0);
+        FadeTransition f = new FadeTransition(Duration.millis(380), n);
+        f.setToValue(1);
+        TranslateTransition t = new TranslateTransition(Duration.millis(380), n);
+        t.setFromY(14);
+        t.setToY(0);
+        t.setInterpolator(javafx.animation.Interpolator.EASE_OUT);
+        ParallelTransition p = new ParallelTransition(f, t);
+        p.setDelay(Duration.millis(retrasoMs));
+        p.play();
+    }
+
+    /** Barras pareadas: ingresos (rojo) contra gastos (aluminio) por mes. */
+    private static Node ingresosVsGastos(List<Object[]> filas) {
+        BarChart<String, Number> g = new BarChart<>(new CategoryAxis(), new NumberAxis());
+        XYChart.Series<String, Number> ingresos = new XYChart.Series<>();
+        ingresos.setName("Ingresos");
+        XYChart.Series<String, Number> gastos = new XYChart.Series<>();
+        gastos.setName("Gastos y pagos a proveedores");
+        for (Object[] f : filas) {
+            ingresos.getData().add(new XYChart.Data<>((String) f[0], (Double) f[1]));
+            gastos.getData().add(new XYChart.Data<>((String) f[0], (Double) f[2]));
+        }
+        g.getData().add(ingresos);
+        g.getData().add(gastos);
+        g.setAnimated(false);
+        g.setCategoryGap(18);
+        g.setBarGap(3);
+        g.getStyleClass().add("grafico-dashboard");
+        return g;
     }
 
     // ------------------------------------------------------------------

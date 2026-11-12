@@ -131,6 +131,7 @@ com\taller\repuestos\util\EtiquetaPDF.class
 com\taller\repuestos\ui\VistaBuscador.class
 com\taller\repuestos\model\Permiso$1.class
 com\taller\repuestos\service\ReporteService$Columna.class
+com\taller\repuestos\ui\Marca.class
 com\taller\repuestos\ui\VistaBuscador$Extractor.class
 com\taller\repuestos\dao\ClienteDAO.class
 com\taller\repuestos\dao\UsuarioDAO.class
@@ -157,4 +158,5 @@ com\taller\repuestos\service\ReporteService$Definicion.class
 com\taller\repuestos\ui\VistaDashboard.class
 com\taller\repuestos\dao\ProveedorDAO$ProductoSuministrado.class
 com\taller\repuestos\service\DashboardService.class
+com\taller\repuestos\ui\Notificacion.class
 com\taller\repuestos\ui\VistaKardex.class

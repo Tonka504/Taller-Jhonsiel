@@ -148,7 +148,8 @@ public class VistaReportes {
         nodosFiltro.put(Filtro.PRODUCTO, txtProducto);
         barraFiltros = new FlowPane(8, 8);
 
-        Button btnGenerar = Componentes.boton("Generar", "primary-button", Iconos.GRAFICA, this::generar);
+        Button btnGenerar = Componentes.boton("Generar", "primary-button", Iconos.GRAFICA, null);
+        btnGenerar.setOnAction(e -> Componentes.conCarga(btnGenerar, this::generar));
         Button btnExcel = Componentes.boton("Excel", "secondary-button", null, "Exportar a CSV (se abre con Excel)", () -> {
             if (actual != null) Exportador.csv(tabla, actual.nombre);
         });
